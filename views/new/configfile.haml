@@ -12,19 +12,19 @@
                                 =error_msg
 
 
-%form{:action => '/new/configfile', :method => 'POST'}
+%form{:action => action_url, :method => 'POST'}
     %table
         %tr
             %td
                 name
             %td
-                %input{:type => 'text', :name => "name", :value => resource["name"]}
+                %input{:type => 'text', :name => "name", :value => resource[:name]}
         %tr
             %td
                 body
             %td
                 %textarea{:name => "body"}
-                    = resource["body"]
+                    = resource[:body]
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type =>"submit"}

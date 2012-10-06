@@ -104,14 +104,21 @@ end
 
 # Static pages to create resources
 RESOURCES = %w(kickstart configfile)
-get '/new/:resource' do
-    resource = params["resource"]
 
-    if !RESOURCES.include?(resource)
+get '/new/:resource' do
+    resource_name = params["resource"]
+
+    if !RESOURCES.include?(resource_name)
         error [404, "Resource not found."]
     end
 
-    haml :"new/#{resource}", :locals => {:resource => {}, :errors => {}}
+    locals = {
+        :resource => {},
+        :errors => {},
+        :action_url => "/new/#{resource_name}"
+    }
+
+    haml :"new/#{resource_name}", :locals => locals
 end
 
 post '/new/:resource' do
@@ -124,16 +131,51 @@ post '/new/:resource' do
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    resource_id = params[:id]
     resource_class = Object::const_get(resource_name.capitalize)
 
-    if !resource_id.empty?
-        resource = resource_class.find(:id => resource_id, :user_id => user_id)
+    resource = resource_class.new
+    resource[:user_id] = user_id
+
+    params.each do |k,v|
+        next if %w(resource id).include? k
+        resource[k.to_sym] = v
     end
 
+    if resource.valid?
+        resource.save
+        redirect '/'
+    else
+        locals = {
+            :errors => resource.errors,
+            :resource => resource.values,
+            :action_url => "/new/#{resource_name}"
+        }
+
+        haml :"new/#{resource_name}", :locals => locals
+    end
+end
+
+post '/:resource/:id' do
+    resource_name = params["resource"]
+
+    if !RESOURCES.include?(resource_name)
+        error [404, "Resource not found."]
+    end
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource_id = params["id"]
+    resource_class = Object::const_get(resource_name.capitalize)
+
+    if resource_id.empty?
+        error [404, "Resource not found."]
+    end
+
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
+
     if resource.nil?
-        resource = resource_class.new
-        resource[:user_id] = user_id
+        error [404, "Resource not found."]
     end
 
     params.each do |k,v|
@@ -148,9 +190,8 @@ post '/new/:resource' do
         locals = {
             :errors => resource.errors,
             :resource => resource.values,
+            :action_url => "/#{resource_name}/#{resource_id}"
         }
-
-        locals[:resource_id] = resource_id if resource_id
 
         haml :"new/#{resource_name}", :locals => locals
     end
@@ -158,20 +199,23 @@ end
 
 get '/:resource/:id' do
     resource_name = params[:resource]
-    id = params[:id]
+    resource_id = params[:id]
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
 
     if !RESOURCES.include?(resource_name)
         error [404, "Resource not found."]
     end
 
     resource_class = Object::const_get(resource_name.capitalize)
-
-    resource = resource_class.find(:id => id)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
     if resource
         locals = {
             :errors => {},
-            :resource => resource
+            :resource => resource,
+            :action_url => "/#{resource_name}/#{resource_id}"
         }
 
         haml :"new/#{resource_name}", :locals => locals
