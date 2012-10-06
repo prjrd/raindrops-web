@@ -57,7 +57,9 @@ before do
 end
 
 get '/' do
-    locals = {:user => session[:user]}
+    user = User.find(:id => session[:user][:id])
+
+    locals = {:user => user}
     haml :index, :locals => locals
 end
 

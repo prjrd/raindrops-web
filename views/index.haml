@@ -6,8 +6,16 @@
 
 %h1 kickstarts
 #kickstarts
-%a{:href => "/new/kickstart"} New Kickstart
+%table
+    - user.kickstarts.each do |ks|
+        %tr
+            %td
+                = ks[:name]
+            %td
+                %a{:href => "/kickstart/#{ks[:id]}"}
+                    Edit
 
+%a{:href => "/new/config"} New Config
 
 %h1 configs
 #configs
