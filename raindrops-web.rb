@@ -94,21 +94,6 @@ end
     end
 end
 
-# Ajax calls
-get '/kickstarts' do
-    content_type 'application/json'
-    user_id = session[:user][:id]
-    user = User.find(:id => user_id)
-    kickstarts = user.kickstarts.collect{|k| k.to_hash}
-    kickstarts.to_json
-end
-
-get '/configs' do
-end
-
-get '/kickstarts' do
-end
-
 # Static pages to create resources
 RESOURCES = %w(kickstart config job)
 get '/new/:resource' do
