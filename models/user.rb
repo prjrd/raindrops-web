@@ -1,6 +1,6 @@
 class User < Sequel::Model
     one_to_many :kickstarts
-    one_to_many :configs
+    one_to_many :configfiles
     one_to_many :jobs
 end
 
@@ -14,5 +14,6 @@ class Kickstart < Sequel::Model
     end
 end
 
-class Configfiles < Sequel::Model
+class Configfile < Sequel::Model
+    many_to_one :user
 end

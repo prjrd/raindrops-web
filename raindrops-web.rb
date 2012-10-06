@@ -103,7 +103,7 @@ end
 end
 
 # Static pages to create resources
-RESOURCES = %w(kickstart config job)
+RESOURCES = %w(kickstart configfile)
 get '/new/:resource' do
     resource = params["resource"]
 
@@ -115,27 +115,67 @@ get '/new/:resource' do
 end
 
 post '/new/:resource' do
-    resource = params["resource"]
+    resource_name = params["resource"]
 
-    if !RESOURCES.include?(resource)
+    if !RESOURCES.include?(resource_name)
         error [404, "Resource not found."]
     end
 
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    resource_params = params.reject{|k,v| k == "resource"}
-    new_resource    = Kickstart.new(resource_params)
+    resource_id = params[:id]
+    resource_class = Object::const_get(resource_name.capitalize)
 
-    if new_resource.valid?
-        user.add_kickstart(new_resource)
+    if !resource_id.empty?
+        resource = resource_class.find(:id => resource_id, :user_id => user_id)
+    end
+
+    if resource.nil?
+        resource = resource_class.new
+        resource[:user_id] = user_id
+    end
+
+    params.each do |k,v|
+        next if k == "resource"
+        resource[k.to_sym] = v
+    end
+
+    if resource.valid?
+        resource.save
         redirect '/'
     else
         locals = {
-            :errors => new_resource.errors,
-            :resource => resource_params
+            :errors => resource.errors,
+            :resource => resource.values,
         }
 
-        haml :"new/#{resource}", :locals => locals
+        locals[:resource_id] = resource_id if resource_id
+
+        haml :"new/#{resource_name}", :locals => locals
+    end
+end
+
+get '/:resource/:id' do
+    resource_name = params[:resource]
+    id = params[:id]
+
+    if !RESOURCES.include?(resource_name)
+        error [404, "Resource not found."]
+    end
+
+    resource_class = Object::const_get(resource_name.capitalize)
+
+    resource = resource_class.find(:id => id)
+
+    if resource
+        locals = {
+            :errors => {},
+            :resource => resource
+        }
+
+        haml :"new/#{resource_name}", :locals => locals
+    else
+        error [404, "Resource not found."]
     end
 end
