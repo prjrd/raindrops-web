@@ -223,3 +223,26 @@ get '/:resource/:id' do
         error [404, "Resource not found."]
     end
 end
+
+get '/:resource/:id/delete' do
+    resource_name = params[:resource]
+    resource_id = params[:id]
+
+    if !RESOURCES.include?(resource_name)
+        error [404, "Resource not found."]
+    end
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource_class = Object::const_get(resource_name.capitalize)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
+
+    if resource.nil?
+        error [404, "Resource not found."]
+    end
+
+    resource.delete
+
+    redirect '/'
+end

@@ -14,6 +14,9 @@
                 %td
                     %a{:href => "/kickstart/#{ks[:id]}"}
                         Edit
+                %td
+                    %a{:href => "/kickstart/#{ks[:id]}/delete"}
+                        Delete
 
 %a{:href => "/new/kickstart"} New Kickstart
 
@@ -27,6 +30,9 @@
                 %td
                     %a{:href => "/configfile/#{cf[:id]}"}
                         Edit
+                %td
+                    %a{:href => "/configfile/#{cf[:id]}/delete"}
+                        Delete
 
 %a{:href => "/new/configfile"} New ConfigFile
 
