@@ -1,0 +1,9 @@
+---
+:db_url: db_url
+:auth:
+    :twitter:
+      :key: twitter_key
+      :secret: twitter_secret
+    :github:
+      :key: github_key
+      :secret: github_secret

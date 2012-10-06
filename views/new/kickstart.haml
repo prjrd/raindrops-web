@@ -1,0 +1,29 @@
+%h1 New Kickstart
+
+- if errors
+    %errors
+        %ul
+            - errors.each do |field, error_list|
+                %li
+                    field <b>#{field}</b>:
+                    %ul
+                        - error_list.each do |error_msg|
+                            %li
+                                =error_msg
+
+
+%form{:action => '/new/kickstart', :method => 'POST'}
+    %table
+        %tr
+            %td
+                name
+            %td
+                %input{:type => 'text', :name => "name", :value => resource["name"]}
+        %tr
+            %td
+                body
+            %td
+                %textarea{:name => "body"}
+                    = resource["body"]
+
+    %input{:type =>"submit"}
