@@ -7,6 +7,7 @@ require 'sinatra'
 require 'omniauth'
 require 'omniauth-twitter'
 require 'omniauth-github'
+require 'omniauth-facebook'
 require 'haml'
 require 'yaml'
 require 'sequel'
@@ -26,6 +27,10 @@ begin
     github_key    = CONFIG[:auth][:github][:key]
     github_secret = CONFIG[:auth][:github][:secret]
 
+    # Facebook
+    facebook_key    = CONFIG[:auth][:facebook][:key]
+    facebook_secret = CONFIG[:auth][:facebook][:secret]
+
     # DB
     DATABASE_URL = CONFIG[:db_url]
 rescue
@@ -42,6 +47,7 @@ use Rack::Session::Cookie
 use OmniAuth::Builder do
     provider :twitter, twitter_key, twitter_secret
     provider :github, github_key, github_secret
+    provider :facebook, facebook_key, facebook_secret
 end
 
 before do

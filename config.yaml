@@ -7,3 +7,6 @@
     :github:
       :key: github_key
       :secret: github_secret
+    :facebook:
+        :key: facebook_key
+        :secret: facebook_secret
