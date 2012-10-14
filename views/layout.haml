@@ -1,10 +1,14 @@
 !!!
 %html
     %head
-        %script{:type=>'text/javascript', :charset=>'utf-8',
+        <!-- Bootstrap -->
+        %link{:href=>"css/bootstrap.min.css", :rel=>"stylesheet"}
+
+        %script{:type=>'text/javascript',
             :src=>'//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'}
-        %script{:type=>'text/javascript', :charset=>'utf-8',
-            :src=>'/js/raindrops.js'}
+        %script{:type=>'text/javascript', :src=>'js/bootstrap.min.js'}
+        <!-- End Bootstrap -->
+
         %title Raindrops
     %body
         =yield
