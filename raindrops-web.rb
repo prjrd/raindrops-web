@@ -75,7 +75,8 @@ end
 # Support both GET and POST for callbacks
 %w(get post).each do |method|
     send(method, "/auth/:provider/callback") do
-        auth = env['omniauth.auth'] # => OmniAuth::AuthHash
+
+        auth = env['omniauth.auth']
 
         name  = auth["info"]["name"]
         email = auth["info"]["email"]
@@ -96,60 +97,152 @@ end
     end
 end
 
-# Static pages to create resources
-RESOURCES = %w(kickstart configfile)
-
-get '/new/:resource' do
-    resource_name = params["resource"]
-
-    if !RESOURCES.include?(resource_name)
-        error [404, "Resource not found."]
-    end
-
+################################################################################
+# Kickstarts
+################################################################################
+get '/kickstart' do
     locals = {
-        :resource => {},
+        :kickstart => {},
         :errors => {},
-        :action_url => "/new/#{resource_name}"
+        :action_url => "/kickstart",
+        :action_method => "post"
     }
 
-    haml :"new/#{resource_name}", :locals => locals
+    haml :"resource/kickstart", :locals => locals
 end
 
-post '/new/:resource' do
-    resource_name = params["resource"]
+get '/kickstart/:id' do
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
 
-    if !RESOURCES.include?(resource_name)
+    resource_id = params["id"]
+
+    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+
+    if kickstart.nil?
         error [404, "Resource not found."]
     end
+
+    revs = KickstartRev.where(:kickstart_id=>resource_id).order(:created_at).reverse
+
+    locals = {
+        :errors => {},
+        :kickstart => kickstart.values,
+        :revs => revs,
+        :action_url => "/kickstart/#{resource_id}",
+        :action_method => "put"
+    }
+
+    haml :"resource/kickstart", :locals => locals
+end
+
+get '/kickstart/:id/rev/:rev_id' do
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource_id = params["id"]
+    rev_id = params[:rev_id]
+
+    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+
+    if kickstart.nil?
+        error [404, "Resource not found."]
+    end
+
+    rev  = KickstartRev[:id => rev_id, :kickstart_id => resource_id]
+    kickstart[:body] = rev[:body]
+
+    revs = KickstartRev.where(:kickstart_id=>resource_id).order(:created_at).reverse
+
+    locals = {
+        :errors => {},
+        :kickstart => kickstart.values,
+        :revs => revs,
+        :action_url => "/kickstart/#{resource_id}",
+        :action_method => "put"
+    }
+
+    haml :"resource/kickstart", :locals => locals
+end
+
+post '/kickstart' do
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    kickstart = Kickstart.new
+
+    kickstart[:name]    = params[:name]
+    kickstart[:body]    = params[:body]
+    kickstart[:user_id] = user_id
+
+    if kickstart.valid?
+        kickstart.save
+        redirect '/'
+    else
+        locals = {
+            :errors => kickstart.errors,
+            :kickstart => kickstart.values,
+            :action_url => "/kickstart",
+            :action_method => "post"
+        }
+
+        haml :"resource/kickstart", :locals => locals
+    end
+end
+
+put '/kickstart/:id' do
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource_id = params["id"]
+
+    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+
+    if kickstart.nil?
+        error [404, "Resource not found."]
+    end
+
+    kickstart[:name]    = params[:name]
+    kickstart[:body]    = params[:body]
+    kickstart[:user_id] = user_id
+
+    if kickstart.valid?
+        kickstart.save
+        redirect '/'
+    else
+        locals = {
+            :errors => kickstart.errors,
+            :kickstart => kickstart.values,
+            :action_url => "/kickstart/#{resource_id}",
+            :action_method => "put"
+        }
+
+        haml :"resource/kickstart", :locals => locals
+    end
+end
+
+delete '/kickstart/:id' do
+    resource_id = params[:id]
 
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    resource_class = Object::const_get(resource_name.capitalize)
+    resource = Kickstart.find(:id => resource_id, :user_id => user_id)
 
-    resource = resource_class.new
-    resource[:user_id] = user_id
-
-    params.each do |k,v|
-        next if %w(resource id).include? k
-        resource[k.to_sym] = v
+    if resource.nil?
+        error [404, "Resource not found."]
     end
 
-    if resource.valid?
-        resource.save
-        redirect '/'
-    else
-        locals = {
-            :errors => resource.errors,
-            :resource => resource.values,
-            :action_url => "/new/#{resource_name}"
-        }
+    resource.destroy
 
-        haml :"new/#{resource_name}", :locals => locals
-    end
+    redirect '/'
 end
 
-post '/:resource/:id' do
+################################################################################
+# Config Files
+################################################################################
+
+put '/:resource/:id' do
     resource_name = params["resource"]
 
     if !RESOURCES.include?(resource_name)

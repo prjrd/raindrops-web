@@ -12,13 +12,15 @@
                 %td
                     = ks[:name]
                 %td
-                    %a{:href => "/kickstart/#{ks[:id]}"}
-                        Edit
+                    %form{:action=>"/kickstart/#{ks[:id]}", :method=>"get"}
+                        %input{:type=>"submit",:value=>"edit"}
                 %td
-                    %a{:href => "/kickstart/#{ks[:id]}/delete"}
-                        Delete
+                    %form{:action=>"/kickstart/#{ks[:id]}", :method=>"post"}
+                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
+                        %input{:type=>"submit",:value=>"delete"}
 
-%a{:href => "/new/kickstart"} New Kickstart
+%form{:action=>"/kickstart", :method=>"get"}
+    %input{:type=>"submit",:value=>"create"}
 
 %h1 Config Files
 #configfiles
@@ -39,4 +41,3 @@
 %h1 jobs
 #jobs
 %a{:href => "/new/job"} New Job
-
