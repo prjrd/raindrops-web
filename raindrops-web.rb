@@ -5,7 +5,6 @@ $: << ROOT_DIR
 require 'rubygems'
 require 'sinatra'
 require 'omniauth'
-require 'omniauth-twitter'
 require 'omniauth-github'
 require 'omniauth-facebook'
 require 'haml'
@@ -19,10 +18,6 @@ CONFIG_FILE = 'config.yaml'
 # Load Configuration
 begin
     CONFIG = YAML.load_file(CONFIG_FILE)
-    # Twitter
-    twitter_key    = CONFIG[:auth][:twitter][:key]
-    twitter_secret = CONFIG[:auth][:twitter][:secret]
-
     # GitHub
     github_key    = CONFIG[:auth][:github][:key]
     github_secret = CONFIG[:auth][:github][:secret]
@@ -45,7 +40,6 @@ enable :sessions
 use Rack::Session::Cookie
 
 use OmniAuth::Builder do
-    provider :twitter, twitter_key, twitter_secret
     provider :github, github_key, github_secret
     provider :facebook, facebook_key, facebook_secret
 end
