@@ -32,6 +32,6 @@ Sequel.migration do
     end
 
     down do
-        drop_table(:kickstarts, :configfiles, :jobs, :users, :cascade => true)
+        drop_table(:kickstarts, :configfiles, :jobs, :users)
     end
 end
