@@ -18,23 +18,23 @@
             %td
                 name
             %td
-                %input{:type => 'text', :name => "name", :value => kickstart[:name]}
+                %input{:type => 'text', :name => "name", :value => resource[:name]}
         %tr
             %td
                 body
             %td
                 %textarea{:name => "body"}
-                    = kickstart[:body]
+                    = resource[:body]
 
-    %input{:type => "hidden", :name => "id", :value => kickstart[:id]}
+    %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}
     %input{:type =>"submit"}
 
-- if revs.count > 0
+- if revs.count > 1
     %h2 Old revisions
     %ul
     - revs.each_with_index do |rev,i|
         - next if i == 0
         %li
-            %a{:href=>"/kickstart/#{kickstart[:id]}/rev/#{rev[:id]}"}
+            %a{:href=>"/kickstart/#{resource[:id]}/rev/#{rev[:id]}"}
                 =rev[:created_at]

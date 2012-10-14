@@ -25,18 +25,20 @@
 %h1 Config Files
 #configfiles
     %table
-        - user.configfiles.each do |cf|
+        - user.cfgs.each do |cfg|
             %tr
                 %td
-                    = cf[:name]
+                    = cfg[:name]
                 %td
-                    %a{:href => "/configfile/#{cf[:id]}"}
-                        Edit
+                    %form{:action=>"/cfg/#{cfg[:id]}", :method=>"get"}
+                        %input{:type=>"submit",:value=>"edit"}
                 %td
-                    %a{:href => "/configfile/#{cf[:id]}/delete"}
-                        Delete
+                    %form{:action=>"/cfg/#{cfg[:id]}", :method=>"post"}
+                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
+                        %input{:type=>"submit",:value=>"delete"}
 
-%a{:href => "/new/configfile"} New ConfigFile
+%form{:action=>"/cfg", :method=>"get"}
+    %input{:type=>"submit",:value=>"create"}
 
 %h1 jobs
 #jobs

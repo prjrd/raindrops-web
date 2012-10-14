@@ -24,12 +24,22 @@ Sequel.migration do
             foreign_key :kickstart_id, :kickstarts
         end
 
-        create_table(:configfiles) do
+        create_table(:cfgs) do
             primary_key :id
             String :name, :size => 20, :null => false
-            String :body, :text=>true,  :null => false
+            String :body, :text => true, :null => false
+            DateTime :created_at
+            DateTime :updated_at
 
             foreign_key :user_id, :users
+        end
+
+        create_table(:cfg_revs) do
+            primary_key :id
+            String :body, :text => true, :null => false
+            DateTime :created_at
+
+            foreign_key :cfg_id, :cfgs
         end
 
         create_table(:jobs) do
@@ -40,6 +50,14 @@ Sequel.migration do
     end
 
     down do
-        drop_table(:kickstarts, :configfiles, :jobs, :users)
+        drop_table(
+            :kickstart_revs,
+            :kickstarts,
+            :cfg_revs,
+            :cfgs,
+            :configfiles,
+            :jobs,
+            :users
+        )
     end
 end

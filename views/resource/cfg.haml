@@ -1,4 +1,4 @@
-%h1 New Config File
+%h1 New Cfg
 
 - if errors
     %errors
@@ -27,4 +27,14 @@
                     = resource[:body]
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
+    %input{:type => "hidden", :name => "_method", :value => action_method}
     %input{:type =>"submit"}
+
+- if revs.count > 1
+    %h2 Old revisions
+    %ul
+    - revs.each_with_index do |rev,i|
+        - next if i == 0
+        %li
+            %a{:href=>"/cfg/#{resource[:id]}/rev/#{rev[:id]}"}
+                =rev[:created_at]

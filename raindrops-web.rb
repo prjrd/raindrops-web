@@ -104,134 +104,158 @@ end
 ################################################################################
 # Kickstarts
 ################################################################################
+
 get '/kickstart' do
+    resource_name = "kickstart"
+
     locals = {
-        :kickstart => {},
+        :resource => {},
         :errors => {},
-        :action_url => "/kickstart",
+        :revs => [],
+        :action_url => "/#{resource_name}",
         :action_method => "post"
     }
 
-    haml :"resource/kickstart", :locals => locals
+    haml :"resource/#{resource_name}", :locals => locals
 end
 
 get '/kickstart/:id' do
+    resource_name      = "kickstart"
+    resource_col_id    = :"#{resource_name}_id"
+    resource_class     = Kickstart
+    resource_class_rev = KickstartRev
+
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
     resource_id = params["id"]
 
-    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
-    if kickstart.nil?
+    if resource.nil?
         error [404, "Resource not found."]
     end
 
-    revs = KickstartRev.where(:kickstart_id=>resource_id).order(:created_at).reverse
+    revs = resource_class_rev.where(resource_col_id=>resource_id).order(:created_at).reverse
 
     locals = {
         :errors => {},
-        :kickstart => kickstart.values,
+        :resource => resource.values,
         :revs => revs,
-        :action_url => "/kickstart/#{resource_id}",
+        :action_url => "/#{resource_name}/#{resource_id}",
         :action_method => "put"
     }
 
-    haml :"resource/kickstart", :locals => locals
+    haml :"resource/#{resource_name}", :locals => locals
 end
 
 get '/kickstart/:id/rev/:rev_id' do
+    resource_name      = "kickstart"
+    resource_col_id    = :"#{resource_name}_id"
+    resource_class     = Kickstart
+    resource_class_rev = KickstartRev
+
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
     resource_id = params["id"]
     rev_id = params[:rev_id]
 
-    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
-    if kickstart.nil?
+    if resource.nil?
         error [404, "Resource not found."]
     end
 
-    rev  = KickstartRev[:id => rev_id, :kickstart_id => resource_id]
-    kickstart[:body] = rev[:body]
+    rev  = resource_class_rev[:id => rev_id, resource_col_id => resource_id]
+    resource[:body] = rev[:body]
 
-    revs = KickstartRev.where(:kickstart_id=>resource_id).order(:created_at).reverse
+    revs = resource_class_rev.where(resource_col_id => resource_id).order(:created_at).reverse
 
     locals = {
         :errors => {},
-        :kickstart => kickstart.values,
+        :resource => resource.values,
         :revs => revs,
-        :action_url => "/kickstart/#{resource_id}",
+        :action_url => "/#{resource_name}/#{resource_id}",
         :action_method => "put"
     }
 
-    haml :"resource/kickstart", :locals => locals
+    haml :"resource/#{resource_name}", :locals => locals
 end
 
 post '/kickstart' do
+    resource_name      = "kickstart"
+    resource_class     = Kickstart
+    resource_class_rev = KickstartRev
+
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    kickstart = Kickstart.new
+    resource = resource_class.new
 
-    kickstart[:name]    = params[:name]
-    kickstart[:body]    = params[:body]
-    kickstart[:user_id] = user_id
+    resource[:name]    = params[:name]
+    resource[:body]    = params[:body]
+    resource[:user_id] = user_id
 
-    if kickstart.valid?
-        kickstart.save
+    if resource.valid?
+        resource.save
         redirect '/'
     else
         locals = {
-            :errors => kickstart.errors,
-            :kickstart => kickstart.values,
-            :action_url => "/kickstart",
+            :errors => resource.errors,
+            :resource => resource.values,
+            :action_url => "/#{resource_name}",
             :action_method => "post"
         }
 
-        haml :"resource/kickstart", :locals => locals
+        haml :"resource/#{resource_name}", :locals => locals
     end
 end
 
 put '/kickstart/:id' do
+    resource_name      = "kickstart"
+    resource_class     = Kickstart
+    resource_class_rev = KickstartRev
+
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
     resource_id = params["id"]
 
-    kickstart = Kickstart.find(:id => resource_id, :user_id => user_id)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
-    if kickstart.nil?
+    if resource.nil?
         error [404, "Resource not found."]
     end
 
-    kickstart[:name]    = params[:name]
-    kickstart[:body]    = params[:body]
-    kickstart[:user_id] = user_id
+    resource[:name]    = params[:name]
+    resource[:body]    = params[:body]
+    resource[:user_id] = user_id
 
-    if kickstart.valid?
-        kickstart.save
+    if resource.valid?
+        resource.save
         redirect '/'
     else
         locals = {
-            :errors => kickstart.errors,
-            :kickstart => kickstart.values,
-            :action_url => "/kickstart/#{resource_id}",
+            :errors => resource.errors,
+            :resource => resource.values,
+            :action_url => "/#{resource_name}/#{resource_id}",
             :action_method => "put"
         }
 
-        haml :"resource/kickstart", :locals => locals
+        haml :"resource/#{resource_name}", :locals => locals
     end
 end
 
 delete '/kickstart/:id' do
+    resource_class     = Kickstart
+
     resource_id = params[:id]
 
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    resource = Kickstart.find(:id => resource_id, :user_id => user_id)
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
     if resource.nil?
         error [404, "Resource not found."]
@@ -246,22 +270,30 @@ end
 # Config Files
 ################################################################################
 
-put '/:resource/:id' do
-    resource_name = params["resource"]
+get '/cfg' do
+    resource_name = "cfg"
 
-    if !RESOURCES.include?(resource_name)
-        error [404, "Resource not found."]
-    end
+    locals = {
+        :resource => {},
+        :errors => {},
+        :revs => [],
+        :action_url => "/#{resource_name}",
+        :action_method => "post"
+    }
+
+    haml :"resource/#{resource_name}", :locals => locals
+end
+
+get '/cfg/:id' do
+    resource_name      = "cfg"
+    resource_col_id    = :"#{resource_name}_id"
+    resource_class     = Cfg
+    resource_class_rev = CfgRev
 
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
     resource_id = params["id"]
-    resource_class = Object::const_get(resource_name.capitalize)
-
-    if resource_id.empty?
-        error [404, "Resource not found."]
-    end
 
     resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
@@ -269,10 +301,66 @@ put '/:resource/:id' do
         error [404, "Resource not found."]
     end
 
-    params.each do |k,v|
-        next if k == "resource"
-        resource[k.to_sym] = v
+    revs = resource_class_rev.where(resource_col_id=>resource_id).order(:created_at).reverse
+
+    locals = {
+        :errors => {},
+        :resource => resource.values,
+        :revs => revs,
+        :action_url => "/#{resource_name}/#{resource_id}",
+        :action_method => "put"
+    }
+
+    haml :"resource/#{resource_name}", :locals => locals
+end
+
+get '/cfg/:id/rev/:rev_id' do
+    resource_name      = "cfg"
+    resource_col_id    = :"#{resource_name}_id"
+    resource_class     = Cfg
+    resource_class_rev = CfgRev
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource_id = params["id"]
+    rev_id = params[:rev_id]
+
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
+
+    if resource.nil?
+        error [404, "Resource not found."]
     end
+
+    rev  = resource_class_rev[:id => rev_id, resource_col_id => resource_id]
+    resource[:body] = rev[:body]
+
+    revs = resource_class_rev.where(resource_col_id => resource_id).order(:created_at).reverse
+
+    locals = {
+        :errors => {},
+        :resource => resource.values,
+        :revs => revs,
+        :action_url => "/#{resource_name}/#{resource_id}",
+        :action_method => "put"
+    }
+
+    haml :"resource/#{resource_name}", :locals => locals
+end
+
+post '/cfg' do
+    resource_name      = "cfg"
+    resource_class     = Cfg
+    resource_class_rev = CfgRev
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource = resource_class.new
+
+    resource[:name]    = params[:name]
+    resource[:body]    = params[:body]
+    resource[:user_id] = user_id
 
     if resource.valid?
         resource.save
@@ -281,59 +369,64 @@ put '/:resource/:id' do
         locals = {
             :errors => resource.errors,
             :resource => resource.values,
-            :action_url => "/#{resource_name}/#{resource_id}"
+            :action_url => "/#{resource_name}",
+            :action_method => "post"
         }
 
-        haml :"new/#{resource_name}", :locals => locals
+        haml :"resource/#{resource_name}", :locals => locals
     end
 end
 
-get '/:resource/:id' do
-    resource_name = params[:resource]
-    resource_id = params[:id]
+put '/cfg/:id' do
+    resource_name      = "cfg"
+    resource_class     = Cfg
+    resource_class_rev = CfgRev
 
     user_id = session[:user][:id]
     user = User.find(:id => user_id)
 
-    if !RESOURCES.include?(resource_name)
-        error [404, "Resource not found."]
-    end
+    resource_id = params["id"]
 
-    resource_class = Object::const_get(resource_name.capitalize)
-    resource = resource_class.find(:id => resource_id, :user_id => user_id)
-
-    if resource
-        locals = {
-            :errors => {},
-            :resource => resource,
-            :action_url => "/#{resource_name}/#{resource_id}"
-        }
-
-        haml :"new/#{resource_name}", :locals => locals
-    else
-        error [404, "Resource not found."]
-    end
-end
-
-get '/:resource/:id/delete' do
-    resource_name = params[:resource]
-    resource_id = params[:id]
-
-    if !RESOURCES.include?(resource_name)
-        error [404, "Resource not found."]
-    end
-
-    user_id = session[:user][:id]
-    user = User.find(:id => user_id)
-
-    resource_class = Object::const_get(resource_name.capitalize)
     resource = resource_class.find(:id => resource_id, :user_id => user_id)
 
     if resource.nil?
         error [404, "Resource not found."]
     end
 
-    resource.delete
+    resource[:name]    = params[:name]
+    resource[:body]    = params[:body]
+    resource[:user_id] = user_id
+
+    if resource.valid?
+        resource.save
+        redirect '/'
+    else
+        locals = {
+            :errors => resource.errors,
+            :resource => resource.values,
+            :action_url => "/#{resource_name}/#{resource_id}",
+            :action_method => "put"
+        }
+
+        haml :"resource/#{resource_name}", :locals => locals
+    end
+end
+
+delete '/cfg/:id' do
+    resource_class     = Cfg
+
+    resource_id = params[:id]
+
+    user_id = session[:user][:id]
+    user = User.find(:id => user_id)
+
+    resource = resource_class.find(:id => resource_id, :user_id => user_id)
+
+    if resource.nil?
+        error [404, "Resource not found."]
+    end
+
+    resource.destroy
 
     redirect '/'
 end
