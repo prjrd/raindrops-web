@@ -26,6 +26,9 @@ begin
     facebook_key    = CONFIG[:auth][:facebook][:key]
     facebook_secret = CONFIG[:auth][:facebook][:secret]
 
+    # Session
+    SESSION_SECRET = CONFIG[:session_secret]
+
     # DB
     DATABASE_URL = CONFIG[:db_url]
 rescue
@@ -37,6 +40,7 @@ require 'models/user'
 
 enable :sessions
 
+use Rack::Session::Pool, :key => SESSION_SECRET
 use Rack::Session::Cookie
 
 use OmniAuth::Builder do

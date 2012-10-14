@@ -1,5 +1,6 @@
 ---
 :db_url: db_url
+:session_secret: session_secret
 :auth:
     :twitter:
       :key: twitter_key
@@ -7,6 +8,3 @@
     :github:
       :key: github_key
       :secret: github_secret
-    :facebook:
-        :key: facebook_key
-        :secret: facebook_secret
