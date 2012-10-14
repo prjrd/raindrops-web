@@ -1,0 +1,23 @@
+%h1 New Job
+
+%form{:action => "/job", :method => "post"}
+    #name
+        name
+        %input{:type => "text", :name => "name"}
+
+    #kickstart
+        kickstart
+        %select{:name => "kickstart_id"}
+            - kickstarts.each do |kickstart|
+                %option{:value => kickstart[:id]}
+                    = kickstart[:name]
+    #cfg
+        cfg
+        %select{:name => "cfg_id"}
+            - cfgs.each do |cfg|
+                %option{:value => cfg[:id]}
+                    = cfg[:name]
+
+    %input{:type => "submit"}
+
+

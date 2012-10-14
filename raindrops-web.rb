@@ -321,3 +321,63 @@ delete '/cfg/:id' do
 
     redirect '/'
 end
+
+
+################################################################################
+# Jobs
+################################################################################
+
+get '/job' do
+    user_id = session[:user][:id]
+    user = User[:id => user_id]
+
+    locals = {
+        :kickstarts => user.kickstarts,
+        :cfgs => user.cfgs
+    }
+
+    haml :job, :locals => locals
+end
+
+get '/job/:id' do
+
+end
+
+post '/job' do
+    user_id = session[:user][:id]
+    user = User[:id => user_id]
+
+    kickstart_id = params[:kickstart_id]
+    cfg_id = params[:cfg_id]
+
+    kickstart = Kickstart[:id => kickstart_id, :user_id => user_id]
+    cfg = Cfg[:id => cfg_id, :user_id => user_id]
+
+    if kickstart.nil? or cfg.nil?
+        error [404, "Resource not found."]
+    end
+
+    user.add_job(
+        :kickstart_id => kickstart_id,
+        :cfg_id => cfg_id,
+        :name => params[:name]
+    )
+
+    redirect '/'
+end
+
+delete '/job/:id' do
+    user_id = session[:user][:id]
+    id = params[:id]
+
+    job = Job[:id => id, :user_id => user_id]
+
+    if job.nil?
+        error [404, "Resource not found."]
+    end
+
+    job.destroy
+
+    redirect '/'
+end
+

@@ -115,3 +115,13 @@ class CfgRev < Sequel::Model
         self.created_at ||= Time.now
     end
 end
+
+class Job < Sequel::Model
+    many_to_one :kickstart
+    many_to_one :cfg
+    many_to_one :user
+
+    def before_create
+        self.created_at ||= Time.now
+    end
+end

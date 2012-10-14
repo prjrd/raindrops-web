@@ -42,4 +42,18 @@
 
 %h1 jobs
 #jobs
-%a{:href => "/new/job"} New Job
+    %table
+        - user.jobs.each do |job|
+            %tr
+                %td
+                    = job[:name]
+                %td
+                    %form{:action=>"/job/#{job[:id]}", :method=>"get"}
+                        %input{:type=>"submit",:value=>"edit"}
+                %td
+                    %form{:action=>"/job/#{job[:id]}", :method=>"post"}
+                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
+                        %input{:type=>"submit",:value=>"delete"}
+
+%form{:action=>"/job", :method=>"get"}
+    %input{:type=>"submit",:value=>"create"}

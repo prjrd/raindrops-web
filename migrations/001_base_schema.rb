@@ -45,7 +45,11 @@ Sequel.migration do
         create_table(:jobs) do
             primary_key :id
             String :name
+            DateTime :created_at
 
+            foreign_key :user_id, :users
+            foreign_key :kickstart_id, :kickstarts
+            foreign_key :cfg_id, :cfgs
         end
     end
 
