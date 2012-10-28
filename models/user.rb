@@ -49,6 +49,17 @@ class Kickstart < Sequel::Model
         super
         errors.add(:name, 'cannot be empty') if !name || name.empty?
         errors.add(:body, 'cannot be empty') if !body || body.empty?
+
+        # Kickstart Validate
+        rules = File.read(File.join(ROOT_DIR,"assets","kickstart_rules.json"))
+
+        kickstart_validator = KickstartValidator.new(body, rules)
+        if !kickstart_validator.valid?
+            kickstart_validator.errors.each do |e|
+                errors.add(:body,e)
+            end
+        end
+
     end
 end
 
