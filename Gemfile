@@ -7,3 +7,4 @@ gem 'omniauth-facebook'
 
 gem 'haml'
 gem 'sequel'
+gem 'beanstalk-client'
