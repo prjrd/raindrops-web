@@ -13,7 +13,7 @@
                     = ks[:name]
                 %td
                     %form{:action=>"/kickstart/#{ks[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"edit"}
+                        %input{:type=>"submit",:value=>"open"}
                 %td
                     %form{:action=>"/kickstart/#{ks[:id]}", :method=>"post"}
                         %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
@@ -31,7 +31,7 @@
                     = cfg[:name]
                 %td
                     %form{:action=>"/cfg/#{cfg[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"edit"}
+                        %input{:type=>"submit",:value=>"open"}
                 %td
                     %form{:action=>"/cfg/#{cfg[:id]}", :method=>"post"}
                         %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
@@ -49,7 +49,7 @@
                     = job[:name]
                 %td
                     %form{:action=>"/job/#{job[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"edit"}
+                        %input{:type=>"submit",:value=>"open"}
                 %td
                     %form{:action=>"/job/#{job[:id]}", :method=>"post"}
                         %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
