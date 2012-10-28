@@ -51,15 +51,23 @@ Sequel.migration do
             foreign_key :kickstart_id, :kickstarts
             foreign_key :cfg_id, :cfgs
         end
+
+        DB.create_table(:job_messages) do
+            primary_key :id
+            String :body, :text => true, :null => false
+            DateTime :created_at
+
+            foreign_key :job_id, :jobs
+        end
     end
 
     down do
-        drop_table(
+        drop_table?(
             :kickstart_revs,
             :kickstarts,
             :cfg_revs,
             :cfgs,
-            :configfiles,
+            :job_messages,
             :jobs,
             :users
         )

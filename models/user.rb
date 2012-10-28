@@ -120,6 +120,49 @@ class Job < Sequel::Model
     many_to_one :kickstart
     many_to_one :cfg
     many_to_one :user
+    one_to_many :job_messages
+
+    def before_create
+        self.created_at ||= Time.now
+    end
+
+    def after_create
+        self.add_job_message(:body => "Submitted")
+    end
+
+    def after_destroy
+        super
+        JobMessage.where(:job_id => self.id).destroy
+    end
+
+    def current_message
+        JobMessage.filter(:job_id => self.id).order(:created_at.desc).first
+    end
+
+    def validate
+        super
+
+        errors.add(:name, 'cannot be empty') if !name || name.empty?
+
+        if kickstart_id
+            kickstart = Kickstart[:id => kickstart_id, :user_id => user_id]
+            errors.add(:kickstart,'resource not found') if kickstart.nil?
+        else
+            errors.add(:kickstart, 'cannot be empty')
+        end
+
+        if cfg_id
+            cfg = Cfg[:id => cfg_id, :user_id => user_id]
+            errors.add(:cfg,'resource not found') if cfg.nil?
+        else
+            errors.add(:cfg, 'cannot be empty')
+        end
+    end
+
+end
+
+class JobMessage < Sequel::Model
+    many_to_one :job
 
     def before_create
         self.created_at ||= Time.now

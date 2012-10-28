@@ -322,7 +322,6 @@ delete '/cfg/:id' do
     redirect '/'
 end
 
-
 ################################################################################
 # Jobs
 ################################################################################
@@ -332,15 +331,30 @@ get '/job' do
     user = User[:id => user_id]
 
     locals = {
+        :job => {},
+        :errors => nil,
         :kickstarts => user.kickstarts,
         :cfgs => user.cfgs
     }
 
-    haml :job, :locals => locals
+    haml :job_new, :locals => locals
 end
 
 get '/job/:id' do
+    user_id = session[:user][:id]
+    id = params[:id]
 
+    job = Job[:id => id, :user_id => user_id]
+
+    if job.nil?
+        error [404, "Resource not found."]
+    end
+
+    locals = {
+        :job => job
+    }
+
+    haml :job, :locals => locals
 end
 
 post '/job' do
@@ -350,20 +364,27 @@ post '/job' do
     kickstart_id = params[:kickstart_id]
     cfg_id = params[:cfg_id]
 
-    kickstart = Kickstart[:id => kickstart_id, :user_id => user_id]
-    cfg = Cfg[:id => cfg_id, :user_id => user_id]
+    job = Job.new
 
-    if kickstart.nil? or cfg.nil?
-        error [404, "Resource not found."]
+    job[:kickstart_id] = kickstart_id
+    job[:cfg_id] = cfg_id
+    job[:name] = params[:name]
+    job[:user_id] = user_id
+
+    if job.valid?
+        job.save
+        redirect '/'
+    else
+        locals = {
+            :errors => job.errors,
+            :job => job.values,
+            :kickstarts => user.kickstarts,
+            :cfgs => user.cfgs,
+            :action_url => "/job"
+        }
+
+        haml :job_new, :locals => locals
     end
-
-    user.add_job(
-        :kickstart_id => kickstart_id,
-        :cfg_id => cfg_id,
-        :name => params[:name]
-    )
-
-    redirect '/'
 end
 
 delete '/job/:id' do
