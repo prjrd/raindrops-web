@@ -51,7 +51,11 @@ class Resource
         if @new_resource
             @new_resource.errors
         else
-            nil
+            if @resource and !@resource.errors.empty?
+                @resource.errors
+            else
+                nil
+            end
         end
     end
 
