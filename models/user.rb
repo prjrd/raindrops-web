@@ -105,6 +105,16 @@ class Cfg < Sequel::Model
         super
         errors.add(:name, 'cannot be empty') if !name || name.empty?
         errors.add(:body, 'cannot be empty') if !body || body.empty?
+
+        # CFG Validate
+        rules = File.read(File.join(ROOT_DIR,"assets","cfg_rules.json"))
+
+        cfg_validator = CfgValidator.new(body, rules)
+        if !cfg_validator.valid?
+            cfg_validator.errors.each do |e|
+                errors.add(:body,e)
+            end
+        end
     end
 end
 

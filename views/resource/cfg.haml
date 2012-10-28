@@ -23,12 +23,14 @@
             %td
                 body
             %td
-                %textarea{:name => "body"}
+                %textarea{:id => "textarea_body", :name => "body"}
                     = resource[:body]
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}
     %input{:type =>"submit"}
+
+#valid
 
 - if revs.count > 1
     %h2 Old revisions

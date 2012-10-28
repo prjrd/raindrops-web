@@ -36,8 +36,10 @@ rescue
 end
 
 DB = Sequel.connect(DATABASE_URL)
+
 require 'models/user'
 require 'lib/resource'
+require 'lib/cfg_validator'
 
 enable :sessions
 

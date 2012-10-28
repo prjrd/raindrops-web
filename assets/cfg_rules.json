@@ -1,0 +1,19 @@
+{
+    "key1:a": {
+        "type": "required",
+        "values": ["val1","val2"],
+
+        "requires": ["key3"],
+        "blocks": [],
+
+        "cases": {
+            "val1": {
+                "requires":["key4"]
+            }
+        }
+
+    },
+    "key2": {
+        "blocks": ["key5"]
+    }
+}
