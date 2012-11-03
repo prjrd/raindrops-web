@@ -35,7 +35,7 @@ end
 
 class CfgValidator
     require 'json'
-    attr_reader :errors
+    attr_reader :errors, :cfg
 
     def initialize(cfg, rules)
         @errors = []

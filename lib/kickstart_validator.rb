@@ -18,14 +18,14 @@ class KickstartCommand < Array
     def has(*vals)
         self_type = self[0]
 
-        if self_type.instance_of?(String)
-            return ((self & vals).sort == vals.sort)
-        elsif self_type.instance_of?(Array)
+        if self_type.instance_of?(Array)
             self.each do |e|
                 if (e & vals).sort == vals.sort
                     return true
                 end
             end
+        else
+            return ((self & vals).sort == vals.sort)
         end
 
         return false
@@ -50,9 +50,13 @@ class KickstartValidator
 
     attr_reader :errors
 
-    def initialize(kickstart, rules)
+    def initialize(kickstart, *rules_files)
         @kickstart = kickstart
-        @rules = JSON.parse(rules)
+
+        @rules = Hash.new
+        rules_files.each do |rules|
+            @rules.merge!(JSON.parse(rules))
+        end
 
         @errors = []
         @ks = Hash.new

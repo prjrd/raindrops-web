@@ -1,0 +1,8 @@
+{
+    "packages":{
+        "has": {
+            "args":["opennebula-context"],
+            "value": true
+        }
+    }
+}
