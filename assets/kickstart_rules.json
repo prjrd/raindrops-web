@@ -1,23 +1,4 @@
 {
-    "zerombr": {
-        "exists": {
-            "value": true
-        }
-    },
-
-    "packages":{
-        "has": {
-            "args":["opennebula-context","bash"],
-            "value": true
-        }
-    },
-
-    "repo":{
-        "count": {
-            "value": 3
-        }
-    },
-
     "lang": {
         "single": {
             "value": true
