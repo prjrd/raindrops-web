@@ -72,7 +72,7 @@ get '/' do
 end
 
 get '/login' do
-    haml :login
+    haml :login, :layout => :"bare-layout"
 end
 
 get '/logout' do
@@ -124,6 +124,9 @@ get '/kickstart/:id' do
     if !r.load
         error [404, "Resource not found."]
     end
+
+    pp r.locals
+    return ""
 
     haml r.view, r.locals
 end

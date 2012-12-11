@@ -1,8 +1,10 @@
-!!!
-%html
+!!! 5
+%html(lang="en")
     %head
+
         <!-- Bootstrap -->
         %link{:href=>"/css/bootstrap.min.css", :rel=>"stylesheet"}
+        %link{:href=>"/css/font-awesome.css", :rel=>"stylesheet"}
 
         %script{:type=>'text/javascript',
             :src=>'//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'}
@@ -10,6 +12,45 @@
         <!-- End Bootstrap -->
 
         %script{:type=>'text/javascript', :src=>'/js/raindrops.js'}
+        %link{:href=>"/css/raindrops.css", :rel=>"stylesheet"}
         %title Raindrops
     %body
-        =yield
+
+        .container
+            .navbar.navbar-inverse.navbar-fixed-top
+                .navbar-inner
+                    .container
+                        %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+                            %span.icon-bar
+                            %span.icon-bar
+                            %span.icon-bar
+
+                        %a.brand{:href => "/"} Raindrops
+
+                        .nav-collapse.collapse
+                            %ul.nav
+                                %li.active
+                                    %a{:href => "/"} Home
+                                %li
+                                    %a{:href => "/job"}
+                                        %i.icon-plus-sign
+                                        &nbsp;Job
+                                %li
+                                    %a{:href => "/cfg"}
+                                        %i.icon-plus-sign
+                                        &nbsp;Cfg
+                                %li
+                                    %a{:href => "/kickstart"}
+                                        %i.icon-plus-sign
+                                        &nbsp;Kickstart
+                            %ul.nav.pull-right
+                                %li.dropdown
+                                    %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
+                                        = session[:user][:name]
+                                        %b.caret
+                                    %ul.dropdown-menu
+                                        %li
+                                            %a{:href => "/logout"} Log out
+
+        .container{:style => "margin-top: 60px;"}
+            =yield

@@ -1,59 +1,38 @@
-#logout
-    %a{:href => "/logout"} Log out
+%ul#resource_tabs.nav.nav-tabs
+    %li.active
+        %a{:href=>"#tab_job", :"data-toggle"=>"tab"} Jobs
+    %li
+        %a{:href=>"#tab_config", :"data-toggle"=>"tab"} Configuration Files
+    %li
+        %a{:href=>"#tab_kickstart", :"data-toggle"=>"tab"} Kickstarts
 
-#welcome
-    Welcome back #{user[:name]}, you are user_id: #{user[:id]}
+.tab-content
+    #tab_job.tab-pane.fade.in.active
+        %table.table.table-bordered
+            %thead
+                %tr
+                    %th Job Name
+                    %th Status
+                    %th Date
+                    %th Actions
+            - user.jobs.each do |job|
+                %tr
+                    %td
+                        = job[:name]
+                    %td
+                        = job.current_message[:body]
+                    %td
+                        = job.current_message[:created_at]
+                    %td
+                        %form.strip{:action=>"/job/#{job[:id]}", :method=>"get"}
+                            %button.btn.btn-primary{:type=>"submit"} Open
 
-%h1 kickstarts
-#kickstarts
-    %table
-        - user.kickstarts.each do |ks|
-            %tr
-                %td
-                    = ks[:name]
-                %td
-                    %form{:action=>"/kickstart/#{ks[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"open"}
-                %td
-                    %form{:action=>"/kickstart/#{ks[:id]}", :method=>"post"}
-                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
-                        %input{:type=>"submit",:value=>"delete"}
+                        %form.strip{:action=>"/job/#{job[:id]}", :method=>"post"}
+                            %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
+                            %button.btn.btn-danger{:type=>"submit"} Delete
+    #tab_config.tab-pane.fade
+        soy el tab de cf
+    #tab_kickstart.tab-pane.fade
+        soy el tab de ks
 
-%form{:action=>"/kickstart", :method=>"get"}
-    %input{:type=>"submit",:value=>"create"}
 
-%h1 Config Files
-#configfiles
-    %table
-        - user.cfgs.each do |cfg|
-            %tr
-                %td
-                    = cfg[:name]
-                %td
-                    %form{:action=>"/cfg/#{cfg[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"open"}
-                %td
-                    %form{:action=>"/cfg/#{cfg[:id]}", :method=>"post"}
-                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
-                        %input{:type=>"submit",:value=>"delete"}
-
-%form{:action=>"/cfg", :method=>"get"}
-    %input{:type=>"submit",:value=>"create"}
-
-%h1 jobs
-#jobs
-    %table
-        - user.jobs.each do |job|
-            %tr
-                %td
-                    = job[:name]
-                %td
-                    %form{:action=>"/job/#{job[:id]}", :method=>"get"}
-                        %input{:type=>"submit",:value=>"open"}
-                %td
-                    %form{:action=>"/job/#{job[:id]}", :method=>"post"}
-                        %input{:type=>"hidden",:name=>"_method",:value=>"delete"}
-                        %input{:type=>"submit",:value=>"delete"}
-
-%form{:action=>"/job", :method=>"get"}
-    %input{:type=>"submit",:value=>"create"}
