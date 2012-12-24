@@ -52,7 +52,7 @@ Sequel.migration do
             foreign_key :cfg_id, :cfgs
         end
 
-        DB.create_table(:job_messages) do
+        create_table(:job_messages) do
             primary_key :id
             String :body, :text => true, :null => false
             DateTime :created_at
