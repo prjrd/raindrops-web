@@ -1,6 +1,7 @@
 !!! 5
 %html(lang="en")
     %head
+
         <!-- Bootstrap -->
         %link{:href=>"/css/bootstrap.min.css", :rel=>"stylesheet"}
         %link{:href=>"/css/font-awesome.css", :rel=>"stylesheet"}
@@ -11,24 +12,38 @@
         <!-- End Bootstrap -->
 
         %script{:type=>'text/javascript', :src=>'/js/raindrops.js'}
-        %link{:href=>"/css/login.css", :rel=>"stylesheet"}
+        %link{:href=>"/css/raindrops.css", :rel=>"stylesheet"}
         %title Raindrops
     %body
         .container
-            .row
-                .span6.offset3
-                    #github
-                        %a(href='/auth/github')
-                            %button.btn.btn-success{:type=>"button"}
-                                %i.icon-github
-                                &nbsp;Sign in with GitHub
-                    #facebook
-                        %a(href='/auth/facebook')
-                            %button.btn.btn-success{:type=>"button"}
-                                %i.icon-facebook
-                                &nbsp;Sign in with Facebook
-                    #twitter
-                        %a(href='/auth/twitter')
-                            %button.btn.btn-success{:type=>"button"}
-                                %i.icon-twitter
-                                &nbsp;Sign in with Twitter
+            .navbar.navbar-inverse.navbar-fixed-top
+                .navbar-inner
+                    .container
+                        %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+                            %span.icon-bar
+                            %span.icon-bar
+                            %span.icon-bar
+                        %a.brand{:href => "/"} Raindrops
+                        .nav-collapse.collapse
+                            %ul.nav.pull-right
+                                %li.dropdown
+                                    %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
+                                        Login
+                                        %b.caret
+                                    %ul.dropdown-menu
+                                        %li
+                                            %a(href='/auth/github')
+                                                %i.icon-github
+                                                &nbsp;Sign in with GitHub
+                                        %li
+                                            %a(href='/auth/facebook')
+                                                %i.icon-facebook
+                                                &nbsp;Sign in with Facebook
+                                        %li
+                                            %a(href='/auth/twitter')
+                                                %i.icon-twitter
+                                                &nbsp;Sign in with Twitter
+                                                             
+        .container{:style => "margin-top: 60px;"}
+ 
+
