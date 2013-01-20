@@ -4,16 +4,26 @@
 
         <!-- Bootstrap -->
         %link{:href=>"/css/bootstrap.min.css", :rel=>"stylesheet"}
-        %link{:href=>"/css/font-awesome.css", :rel=>"stylesheet"}
+        %link{:href=>"/css/font-awesome.min.css", :rel=>"stylesheet"}
 
         %script{:type=>'text/javascript',
             :src=>'//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'}
         %script{:type=>'text/javascript', :src=>'/js/bootstrap.min.js'}
         <!-- End Bootstrap -->
 
+        <!-- dataTables -->
+        %script{:type=>'text/javascript', :src=>'/js/jquery.dataTables.min.js'}
+        %script{:type=>'text/javascript', :src=>'/js/DT_bootstrap.js'}
+        %link{:href=>"/css/DT_bootstrap.css", :rel=>"stylesheet"}
+        <!-- End dataTables -->
+
         %script{:type=>'text/javascript', :src=>'/js/raindrops.js'}
         %link{:href=>"/css/raindrops.css", :rel=>"stylesheet"}
         %title Raindrops
+
+        <!-- specific resources -->
+        = load_resources
+        <!-- End specific resources -->
     %body
 
         .container

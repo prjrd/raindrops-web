@@ -1,3 +1,28 @@
 %h1
     Job
     = job[:name]
+
+%ul
+    %li
+        %b Kickstart:&nbsp;
+        %a{:href=>"/kickstart/#{job.kickstart_id}"}
+            = job.kickstart.name
+    %li
+        %b Cfg:&nbsp;
+        %a{:href=>"/cfg/#{job.cfg_id}"}
+            = job.cfg.name
+
+%table.table.table-striped.table-bordered
+    %thead
+        %tr
+            %td
+                %b Date
+            %td
+                %b Body
+    %tbody
+        - job.messages.each do |message|
+            %tr
+                %td
+                    = message[:created_at]
+                %td
+                    = message[:body]

@@ -1,7 +1,7 @@
 %h1 New Cfg
 
 - if errors
-    %errors
+    .errors.alert.alert-error
         %ul
             - errors.each do |field, error_list|
                 %li
@@ -12,18 +12,18 @@
                                 =error_msg
 
 
-%form{:action => action_url, :method => 'POST'}
+%form.new_resource{:action => action_url, :method => 'POST'}
     %table
         %tr
             %td
-                name
+                Name
             %td
                 %input{:type => 'text', :name => "name", :value => resource[:name]}
         %tr
             %td
-                body
+                Body
             %td
-                %textarea{:id => "textarea_body", :name => "body"}= resource[:body]
+                %textarea{:name => "body"}= resource[:body]
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}

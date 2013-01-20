@@ -1,7 +1,7 @@
 %h1 New Job
 
 - if errors
-    %errors
+    .errors.alert.alert-error
         %ul
             - errors.each do |field, error_list|
                 %li
@@ -11,25 +11,33 @@
                             %li
                                 =error_msg
 
-%form{:action => "/job", :method => "post"}
-    #name
-        name
-        %input{:type => "text", :name => "name", :value => job[:name]}
+%form.new_resource{:action => "/job", :method => "post"}
+    %table
+        %tr
+            %td
+                Name
+            %td
+                %input{:type => "text", :name => "name", :value => job[:name]}
 
-    #kickstart
-        kickstart
-        %select{:name => "kickstart_id"}
-            %option
-            - kickstarts.each do |kickstart|
-                %option{:value => kickstart[:id], :selected => (kickstart[:id] == job[:kickstart_id])}
-                    = kickstart[:name]
-    #cfg
-        cfg
-        %select{:name => "cfg_id"}
-            %option
-            - cfgs.each do |cfg|
-                %option{:value => cfg[:id], :selected => (cfg[:id] == job[:cfg_id])}
-                    = cfg[:name]
+        %tr
+            %td
+                Kickstart
+            %td
+                %select{:name => "kickstart_id"}
+                    %option
+                    - kickstarts.each do |kickstart|
+                        %option{:value => kickstart[:id], :selected => (kickstart[:id] == job[:kickstart_id])}
+                            = kickstart[:name]
+
+        %tr
+            %td
+                Cfg
+            %td
+                %select{:name => "cfg_id"}
+                    %option
+                    - cfgs.each do |cfg|
+                        %option{:value => cfg[:id], :selected => (cfg[:id] == job[:cfg_id])}
+                            = cfg[:name]
 
     %input{:type => "submit"}
 

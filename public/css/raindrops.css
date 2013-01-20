@@ -1,0 +1,22 @@
+form.strip {
+    margin: 0;
+    display: inline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+form.new_resource table, form.new_resource td:last-child {
+    width: 100%;
+}
+
+form.new_resource tr td:first-child {
+    padding-right: 30px;
+}
+
+form.new_resource textarea {
+    width: 100%;
+    height: 250px;
+    font-family: "Courier New", Courier, monospace;
+}

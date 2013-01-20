@@ -7,6 +7,19 @@ function clean_get_forms(){
     });
 }
 
-$(document).ready(function(){
+function update_tab_url(){
+  var hash = window.location.hash;
+  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+  $('.nav-tabs a').click(function (e) {
+    $(this).tab('show');
+    var scrollmem = $('body').scrollTop();
+    window.location.hash = this.hash;
+    $('html,body').scrollTop(scrollmem);
+  });
+}
+
+$(function(){
     clean_get_forms();
+    update_tab_url();
 });
