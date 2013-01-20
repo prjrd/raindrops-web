@@ -386,6 +386,19 @@ get '/job' do
     haml :job_new, :locals => locals
 end
 
+get '/json/job' do
+    content_type 'application/json'
+    user_id = session[:user][:id]
+    user = User[:id => user_id]
+
+    user.jobs.collect do |job|
+        messages = job.messages.collect{|m| m.to_hash}
+        job = job.to_hash
+        job[:messages] = messages
+        job
+    end.to_json
+end
+
 get '/job/:id' do
     user_id = session[:user][:id]
     id = params[:id]
