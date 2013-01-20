@@ -160,6 +160,10 @@ class Job < Sequel::Model
         JobMessage.filter(:job_id => self.id).order(:created_at.desc).first
     end
 
+    def messages
+        JobMessage.filter(:job_id => self.id).order(:created_at.desc).all
+    end
+
     def validate
         super
 
