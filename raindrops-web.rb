@@ -168,9 +168,6 @@ get '/kickstart/:id' do
         error [404, "Resource not found."]
     end
 
-    pp r.locals
-    return ""
-
     haml r.view, r.locals
 end
 
