@@ -13,7 +13,22 @@ require 'sequel'
 require 'json'
 require 'pp'
 
+# Monkey patch to get template name from within the view
+module Sinatra
+    module Templates
+        def haml(template, options={}, locals={})
+            @template = template
+            render :haml, template, options, locals
+        end
+    end
+end
+
 CONFIG_FILE = 'config.yaml'
+
+begin
+    PAGE_RESOURCES = YAML.load_file('page_resources.yaml')
+rescue
+end
 
 # Load Configuration
 begin
@@ -50,6 +65,34 @@ use Rack::Session::Cookie
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
     provider :facebook, facebook_key, facebook_secret
+end
+
+helpers do
+
+    # This helper loads the resources specified in the PAGE_RESOURCES yaml
+    # for a specific view. It's desgined to be called from within a view.
+    def load_resources
+
+        if defined? PAGE_RESOURCES
+            load = String.new
+            if (resources = PAGE_RESOURCES[@template])
+                if (js_files = resources[:js])
+                    resources[:js].each do |js|
+                        load << \
+                        "<script src='#{js}' type='text/javascript'></script>"
+                    end
+                end
+
+                if (css_files = resources[:css])
+                    resources[:css].each do |css|
+                        load << \
+                        "<link href='#{css}' rel='stylesheet' />"
+                    end
+                end
+            end
+            load if !load.empty?
+        end
+    end
 end
 
 before do
