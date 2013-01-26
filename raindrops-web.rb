@@ -115,7 +115,7 @@ get '/' do
 end
 
 get '/login' do
-    haml :login, :layout => :"bare-layout"
+    haml :login, :layout => false
 end
 
 get '/logout' do
