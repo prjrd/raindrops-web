@@ -96,7 +96,7 @@ helpers do
 end
 
 before do
-    path = request.env["REQUEST_PATH"]
+    path = request.env["REQUEST_URI"]
     auth_routes = [
        %r(^/auth/[^/]+/callback.*),
        '/login'
