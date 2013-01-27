@@ -1,9 +1,17 @@
 Sequel.migration do
     up do
+        create_table(:providers) do
+            primary_key :id
+            String :name, :size => 20, :null => false, :index => true
+        end
+
         create_table(:users) do
             primary_key :id
+            Integer :provider_uid, :index => true, :null => false
             String :name, :size => 20, :null => false
-            String :email, :size => 20, :null => false
+            String :email, :size => 20
+
+            foreign_key :provider_id, :providers, :null => false
         end
 
         create_table(:kickstarts) do
@@ -59,6 +67,11 @@ Sequel.migration do
 
             foreign_key :job_id, :jobs
         end
+
+        # Create providers
+        %w(facebook github).each do |p|
+            self[:providers].insert({:name => p})
+        end
     end
 
     down do
@@ -69,7 +82,8 @@ Sequel.migration do
             :cfgs,
             :job_messages,
             :jobs,
-            :users
+            :users,
+            :providers
         )
     end
 end
