@@ -4,6 +4,7 @@ $: << ROOT_DIR
 
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/cookies'
 require 'omniauth'
 require 'omniauth-github'
 require 'omniauth-facebook'
@@ -77,7 +78,6 @@ helpers do
     # This helper loads the resources specified in the PAGE_RESOURCES yaml
     # for a specific view. It's desgined to be called from within a view.
     def load_resources
-
         if defined? PAGE_RESOURCES
             load = String.new
             if (resources = PAGE_RESOURCES[@template])
@@ -108,7 +108,9 @@ before do
     ]
 
     if auth_routes.collect{|r| path.match(r)}.compact.empty?
-        redirect '/login' if session[:user].nil?
+        if session[:user].nil? or cookies[:user_id] != session[:user][:id].to_s
+            redirect '/login'
+        end
     end
 end
 
@@ -148,6 +150,7 @@ end
         end
 
         session[:user] = user
+        cookies[:user_id] = user[:id]
 
         redirect '/'
     end
