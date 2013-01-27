@@ -52,7 +52,8 @@ end
 
 DB = Sequel.connect(DATABASE_URL)
 
-require 'models/user'
+Dir['models/*.rb'].each{|m| require m}
+
 require 'lib/resource'
 require 'lib/cfg_validator'
 require 'lib/kickstart_validator'
