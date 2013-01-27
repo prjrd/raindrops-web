@@ -215,7 +215,7 @@ post '/kickstart' do
 
     if resource.valid?
         resource.save
-        redirect '/'
+        redirect '/#tab_kickstart'
     else
         haml r.view, r.locals
     end
@@ -242,7 +242,7 @@ put '/kickstart/:id' do
 
     if resource.valid?
         resource.save
-        redirect '/'
+        redirect '/#tab_kickstart'
     else
         haml r.view, r.locals
     end
@@ -260,7 +260,7 @@ delete '/kickstart/:id' do
 
     r.resource.destroy
 
-    redirect '/'
+    redirect '/#tab_kickstart'
 end
 
 ################################################################################
@@ -325,7 +325,7 @@ post '/cfg' do
 
     if resource.valid?
         resource.save
-        redirect '/'
+        redirect '/#tab_config'
     else
         haml r.view, r.locals
     end
@@ -352,7 +352,7 @@ put '/cfg/:id' do
 
     if resource.valid?
         resource.save
-        redirect '/'
+        redirect '/#tab_config'
     else
         haml r.view, r.locals
     end
@@ -370,7 +370,7 @@ delete '/cfg/:id' do
 
     r.resource.destroy
 
-    redirect '/'
+    redirect '/#tab_config'
 end
 
 ################################################################################
@@ -437,7 +437,7 @@ post '/job' do
 
     if job.valid?
         job.save
-        redirect '/'
+        redirect '/#tab_job'
     else
         locals = {
             :errors => job.errors,
@@ -463,6 +463,6 @@ delete '/job/:id' do
 
     job.destroy
 
-    redirect '/'
+    redirect '/#tab_job'
 end
 
