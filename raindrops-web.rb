@@ -242,6 +242,7 @@ put '/kickstart/:id' do
 
     r = ResourceKickstart.new(
             :user_id => user_id,
+            :action_method => "put",
             :id => params["id"]
         )
 
@@ -352,9 +353,9 @@ put '/cfg/:id' do
 
     r = ResourceCfg.new(
             :user_id => user_id,
+            :action_method => "put",
             :id => params["id"]
         )
-
 
     if !r.load
         error [404, "Resource not found."]
