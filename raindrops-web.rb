@@ -41,6 +41,10 @@ begin
     facebook_key    = CONFIG[:auth][:facebook][:key]
     facebook_secret = CONFIG[:auth][:facebook][:secret]
 
+    # Twitter
+    #twitter_key    = CONFIG[:auth][:twitter][:key]
+    #twitter_secret = CONFIG[:auth][:twitter][:secret]
+
     # Session
     SESSION_SECRET = CONFIG[:session_secret]
 
@@ -64,7 +68,8 @@ use Rack::Session::Cookie
 
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
-    provider :facebook, facebook_key, facebook_secret
+    provider :facebook, facebook_key, facebook_secret, :scope => 'email'
+    #provider :twitter, twitter_key, twitter_secret
 end
 
 helpers do
