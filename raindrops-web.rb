@@ -57,7 +57,8 @@ end
 
 DB = Sequel.connect(DATABASE_URL)
 
-require 'models/user'
+Dir['models/*.rb'].each{|m| require m}
+
 require 'lib/resource'
 require 'lib/cfg_validator'
 require 'lib/kickstart_validator'
@@ -133,23 +134,35 @@ end
 # Support both GET and POST for callbacks
 %w(get post).each do |method|
     send(method, "/auth/:provider/callback") do
-
         auth = env['omniauth.auth']
+
+        begin
+            provider_id = Provider[:name => params["provider"]][:id]
+        rescue
+            error [404, "Provider not found."]
+        end
+
+        provider_uid = auth["uid"]
 
         name  = auth["info"]["name"]
         email = auth["info"]["email"]
 
-        user = User.find(:email => email)
+        user = User[:provider_id => provider_id, :provider_uid => provider_uid]
 
         if user.nil?
             user = User.new
             user.name  = name
             user.email = email
-            user.save
-            user = user.to_hash
+            user.provider_id  = provider_id
+            user.provider_uid = provider_uid
+        else
+            user.name = name
+            user.email = email
         end
 
-        session[:user] = user
+        user.save
+
+        session[:user] = user.to_hash
         cookies[:user_id] = user[:id]
 
         redirect '/'
