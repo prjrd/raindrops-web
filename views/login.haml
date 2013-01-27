@@ -43,7 +43,25 @@
                                             %a(href='/auth/twitter')
                                                 %i.icon-twitter
                                                 &nbsp;Sign in with Twitter
-                                                             
-        .container{:style => "margin-top: 60px;"}
- 
+
+        .container.main-container
+            .login-section
+                .row
+                    .span12
+                        .main-title
+                            %h1
+                                Welcome to Raindrops!
+                .row
+                    .span4.offset4
+                        .login-box
+                            %ul
+                                %a(href='/auth/github')
+                                    %li
+                                        %i.icon-github
+                                        &nbsp;Sign in with GitHub
+                                %a(href='/auth/facebook')
+                                    %li
+                                        %i.icon-facebook
+                                        &nbsp;Sign in with Facebook
+
 

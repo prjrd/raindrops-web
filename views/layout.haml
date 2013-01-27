@@ -25,7 +25,6 @@
         = load_resources
         <!-- End specific resources -->
     %body
-
         .container
             .navbar.navbar-inverse.navbar-fixed-top
                 .navbar-inner
@@ -62,5 +61,5 @@
                                         %li
                                             %a{:href => "/logout"} Log out
 
-        .container{:style => "margin-top: 60px;"}
+        .container.main-container
             =yield

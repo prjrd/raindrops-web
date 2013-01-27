@@ -20,3 +20,43 @@ form.new_resource textarea {
     height: 250px;
     font-family: "Courier New", Courier, monospace;
 }
+
+.login-section {
+    text-align: center;
+    margin-top: 120px;
+}
+
+.login-box {
+    background-color: #f0f0f0;
+
+    border: 1px solid #ddd;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+
+.login-box ul {
+    margin:10px;
+    list-style-type: none;
+}
+
+.login-box li {
+    background-color: white;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+
+.login-box li:first-child {
+    margin-bottom: 10px;
+}
+
+.login-box li:hover {
+    background-color: #E0E9FF;
+}
+
+.main-container {
+    margin-top: 60px;
+}
+
