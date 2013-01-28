@@ -6,10 +6,14 @@ class Job < Sequel::Model
 
     def before_create
         self.created_at ||= Time.now
+        super
     end
 
     def after_create
+        super
         self.add_job_message(:body => "Submitted")
+        self.sha256 = Digest::SHA256.hexdigest("#{Time.now.to_f}-#{self.id}")
+        self.save
     end
 
     def after_destroy
@@ -18,11 +22,11 @@ class Job < Sequel::Model
     end
 
     def current_message
-        JobMessage.filter(:job_id => self.id).order(:created_at.desc).first
+        JobMessage.filter(:job_id => self.id).order(:created_at.desc,:id.desc).first
     end
 
     def messages
-        JobMessage.filter(:job_id => self.id).order(:created_at.desc).all
+        JobMessage.filter(:job_id => self.id).order(:created_at.desc,:id.desc).all
     end
 
     def validate
@@ -74,6 +78,15 @@ class Job < Sequel::Model
                 end
             end
         end
+    end
+
+    def submit
+        job_hash = {}
+        job_hash[:job_id] = self.id
+        job_hash[:id] = self.sha256
+        job_hash[:status] = "New"
+
+        BS.put(job_hash.to_json)
     end
 end
 

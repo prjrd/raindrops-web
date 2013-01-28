@@ -53,6 +53,7 @@ Sequel.migration do
         create_table(:jobs) do
             primary_key :id
             String :name
+            String :sha256, :size => 64
             DateTime :created_at
 
             foreign_key :user_id, :users

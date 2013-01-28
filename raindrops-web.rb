@@ -12,6 +12,8 @@ require 'haml'
 require 'yaml'
 require 'sequel'
 require 'json'
+require 'beanstalk-client'
+require 'digest'
 require 'pp'
 
 # Monkey patch to get template name from within the view
@@ -57,8 +59,14 @@ end
 
 DB = Sequel.connect(DATABASE_URL)
 
+# Open beanstalk connection
+BS = Beanstalk::Pool.new(['localhost:11300'])
+BS.use("dispatcher")
+
+# Load models
 Dir['models/*.rb'].each{|m| require m}
 
+# Load libs
 require 'lib/resource'
 require 'lib/cfg_validator'
 require 'lib/kickstart_validator'
@@ -454,6 +462,7 @@ post '/job' do
 
     if job.valid?
         job.save
+        job.submit
         redirect '/#tab_job'
     else
         locals = {

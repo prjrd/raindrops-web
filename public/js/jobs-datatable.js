@@ -24,6 +24,7 @@ function update_jobs_table(jobs_table){
             id = val["id"];
             name = val["name"];
             messages = val["messages"];
+            sha256 = val["sha256"];
 
             if (messages.length > 0) {
                 status = messages[0]["body"];
@@ -39,7 +40,9 @@ function update_jobs_table(jobs_table){
             "<form action='/job/" + id + "' class='strip' method='post'>" +
             "    <input name='_method' type='hidden' value='delete' />" +
             "    <button class='btn btn-danger' type='submit'>Delete</button>" +
-            "</form>";
+            "</form>" +
+            "&nbsp;<a class='btn' href='http://jobhost.raindrops.centos.org/" + sha256 + "/'>"+
+            "Results</a>";
 
             aaData.push([name,status,timestamp,actions]);
         });
