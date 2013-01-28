@@ -1,6 +1,6 @@
 {
     "type": {
         "type": "required",
-        "values": ["opennebula","xen"]
+        "values": ["kvm", "opennebula-kvm","opennebula-xen","xen"]
     }
 }
