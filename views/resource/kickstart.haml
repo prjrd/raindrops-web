@@ -23,7 +23,11 @@
             %td
                 Body
             %td
-                %textarea{:name => "body"}= resource[:body]
+                %textarea{:name => "body"}
+                    - if resource[:body].nil?
+                        =TEMPLATE_KICKSTART
+                    - else
+                        =resource[:body]
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}

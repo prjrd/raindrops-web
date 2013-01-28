@@ -57,6 +57,18 @@ rescue
     raise "No config file #{CONFIG_FILE} readable/found/valid yaml syntax."
 end
 
+# Get admins
+begin
+    ADMINS = YAML.load_file('admins.yaml')
+rescue
+    ADMINS = nil
+end
+
+# Load templates
+TEMPLATE_KICKSTART = File.read('assets/kickstart.template')
+TEMPLATE_CFG       = File.read('assets/cfg.template')
+
+# Get Sequel database
 DB = Sequel.connect(DATABASE_URL)
 
 # Open beanstalk connection
@@ -70,6 +82,7 @@ Dir['models/*.rb'].each{|m| require m}
 require 'lib/resource'
 require 'lib/cfg_validator'
 require 'lib/kickstart_validator'
+require 'lib/mail'
 
 enable :sessions
 
