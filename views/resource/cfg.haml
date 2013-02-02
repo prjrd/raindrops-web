@@ -23,11 +23,10 @@
             %td
                 Body
             %td
-                %textarea{:name => "body"}
-                    - if resource[:body].nil?
-                        =TEMPLATE_CFG
-                    - else
-                        =resource[:body]
+                - if resource[:body].nil?
+                    %textarea{:name => "body"}= TEMPLATE_CFG
+                - else
+                    %textarea{:name => "body"}= resource[:body]
 
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
