@@ -79,10 +79,7 @@ BS.use("dispatcher")
 Dir['models/*.rb'].each{|m| require m}
 
 # Load libs
-require 'lib/resource'
-require 'lib/cfg_validator'
-require 'lib/kickstart_validator'
-require 'lib/mail'
+Dir['lib/*.rb'].each{|m| require m}
 
 enable :sessions
 
@@ -150,6 +147,10 @@ end
 get '/logout' do
     session[:user] = nil
     redirect '/'
+end
+
+get '/status' do
+    haml :status, :locals => {:status => job_status}
 end
 
 # Support both GET and POST for callbacks

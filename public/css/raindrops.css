@@ -60,3 +60,15 @@ form.new_resource textarea {
     margin-top: 60px;
 }
 
+.builder-status ul {
+    list-style-type: none;
+    margin-left: 0px;
+}
+
+.builder-status li {
+    margin-top:10px;
+}
+
+.builder-status button {
+    width: 80px;
+}
