@@ -45,8 +45,8 @@ begin
     facebook_secret = CONFIG[:auth][:facebook][:secret]
 
     # Twitter
-    #twitter_key    = CONFIG[:auth][:twitter][:key]
-    #twitter_secret = CONFIG[:auth][:twitter][:secret]
+    twitter_key    = CONFIG[:auth][:twitter][:key]
+    twitter_secret = CONFIG[:auth][:twitter][:secret]
 
     # Session
     SESSION_SECRET = CONFIG[:session_secret]
