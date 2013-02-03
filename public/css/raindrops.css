@@ -1,3 +1,38 @@
+/* End sticky footer */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -70px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+footer {
+  height: 50px;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* End sticky footer */
+
 form.strip {
     margin: 0;
     display: inline;
@@ -23,37 +58,16 @@ form.new_resource textarea {
 
 .login-section {
     text-align: center;
-    margin-top: 120px;
 }
 
-.login-box {
-    background-color: #f0f0f0;
-
-    border: 1px solid #ddd;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+.login-section h1 {
+  margin-top: 100px;
+  margin-bottom: 20px;
 }
 
-.login-box ul {
-    margin:10px;
-    list-style-type: none;
-}
-
-.login-box li {
-    background-color: white;
-    border: 1px solid #ddd;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-}
-
-.login-box li:first-child {
-    margin-bottom: 10px;
-}
-
-.login-box li:hover {
-    background-color: #E0E9FF;
+.login-section a.btn {
+    margin-top: 10px;
+    width: 160px;
 }
 
 .main-container {
@@ -71,4 +85,19 @@ form.new_resource textarea {
 
 .builder-status button {
     width: 80px;
+}
+
+footer {
+    color: #666;
+    background-color: #141414;
+    padding: 10px;
+    border-top: 1px solid black;
+    font-size: 0.9em;
+    text-align: center;
+}
+footer a {
+    color: #999;
+}
+footer a:hover {
+    color: #f0f0f0
 }
