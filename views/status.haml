@@ -1,15 +1,16 @@
-Queued jobs: #{status["build"]["current-waiting"]}
-%br
-.builder-status
-    %ul
-        - status["build"]["current-watching"].times do |i|
-            %li
-                = "Builder ##{i+1}:"
-                - if i < status["build"]["current-jobs-reserved"]
-                    %button.btn.btn-success
-                        working
-                - else
-                    %button.btn
-                        sleeping
-
-
+- if status["build"]
+    Queued jobs: #{status["build"]["current-waiting"]}
+    %br
+    .builder-status
+        %ul
+            - status["build"]["current-watching"].times do |i|
+                %li
+                    = "Builder ##{i+1}:"
+                    - if i < status["build"]["current-jobs-reserved"]
+                        %button.btn.btn-success
+                            working
+                    - else
+                        %button.btn
+                            sleeping
+- else
+    No Builders detected
