@@ -6,6 +6,7 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/cookies'
 require 'omniauth'
+require 'omniauth-twitter'
 require 'omniauth-github'
 require 'omniauth-facebook'
 require 'haml'
@@ -89,7 +90,7 @@ use Rack::Session::Cookie
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
     provider :facebook, facebook_key, facebook_secret, :scope => 'email'
-    #provider :twitter, twitter_key, twitter_secret
+    provider :twitter, twitter_key, twitter_secret
 end
 
 helpers do

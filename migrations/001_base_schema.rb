@@ -70,7 +70,7 @@ Sequel.migration do
         end
 
         # Create providers
-        %w(facebook github).each do |p|
+        %w(facebook github twitter).each do |p|
             self[:providers].insert({:name => p})
         end
     end
