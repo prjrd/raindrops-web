@@ -15,57 +15,66 @@
         %link{:href=>"/css/raindrops.css", :rel=>"stylesheet"}
         %title Raindrops
     %body
-        .container
-            .navbar.navbar-inverse.navbar-fixed-top
-                .navbar-inner
-                    .container
-                        %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
-                            %span.icon-bar
-                            %span.icon-bar
-                            %span.icon-bar
-                        %a.brand{:href => "/"} Raindrops
-                        .nav-collapse.collapse
-                            %ul.nav.pull-right
-                                %li.dropdown
-                                    %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
-                                        Login
-                                        %b.caret
-                                    %ul.dropdown-menu
-                                        %li
-                                            %a(href='/auth/github')
-                                                %i.icon-github
-                                                &nbsp;Sign in with GitHub
-                                        %li
-                                            %a(href='/auth/facebook')
-                                                %i.icon-facebook
-                                                &nbsp;Sign in with Facebook
-                                        %li
-                                            %a(href='/auth/twitter')
-                                                %i.icon-twitter
-                                                &nbsp;Sign in with Twitter
+        #wrap
+            .container
+                .navbar.navbar-inverse.navbar-fixed-top
+                    .navbar-inner
+                        .container
+                            %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+                                %span.icon-bar
+                                %span.icon-bar
+                                %span.icon-bar
+                            %a.brand{:href => "/"} Raindrops
+                            .nav-collapse.collapse
+                                %ul.nav.pull-right
+                                    %li.dropdown
+                                        %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
+                                            Login
+                                            %b.caret
+                                        %ul.dropdown-menu
+                                            %li
+                                                %a(href='/auth/github')
+                                                    %i.icon-github
+                                                    &nbsp;Sign in with GitHub
+                                            %li
+                                                %a(href='/auth/facebook')
+                                                    %i.icon-facebook
+                                                    &nbsp;Sign in with Facebook
+                                            %li
+                                                %a(href='/auth/twitter')
+                                                    %i.icon-twitter
+                                                    &nbsp;Sign in with Twitter
 
-        .container.main-container
-            .login-section
-                .row
-                    .span12
-                        .main-title
-                            %h1
-                                Welcome to Raindrops!
-                .row
-                    .span4.offset4
-                        .login-box
-                            %ul
-                                %a(href='/auth/github')
-                                    %li
+
+            .container.main-container
+                .login-section
+                    .row
+                        .span12
+                            .main-title
+                                %h1
+                                    Welcome to Raindrops!
+                    .row
+                        .span4.offset4
+                            .login-box
+                                %ul
+                                    %a.btn(href='/auth/github')
                                         %i.icon-github
                                         &nbsp;Sign in with GitHub
-                                %a(href='/auth/facebook')
-                                    %li
+                                    %a.btn(href='/auth/facebook')
                                         %i.icon-facebook
                                         &nbsp;Sign in with Facebook
 
-                                %a(href='/auth/twitter')
-                                    %li
+                                    %a.btn(href='/auth/twitter')
                                         %i.icon-twitter
                                         &nbsp;Sign in with Twitter
 
+
+            #push
+
+        %footer
+            &copy; Karanbir Singh & Jaime Melis, 2012-2013
+            %br
+            %a{:href=>"http://www.peer1.com/"}
+                Powered By PEER 1 Managed Hosting
+                %img{:src=>"http://www.peer1.com/images/hostingby_logos/p1_88x31_white_transpbg.PNG",
+                :alt=>"Managed Hosting by PEER 1", :width=>"88", :height=>"31"}

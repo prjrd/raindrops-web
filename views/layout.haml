@@ -25,45 +25,56 @@
         = load_resources
         <!-- End specific resources -->
     %body
-        .container
-            .navbar.navbar-inverse.navbar-fixed-top
-                .navbar-inner
-                    .container
-                        %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
-                            %span.icon-bar
-                            %span.icon-bar
-                            %span.icon-bar
+        #wrap
+            .container
+                .navbar.navbar-inverse.navbar-fixed-top
+                    .navbar-inner
+                        .container
+                            %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+                                %span.icon-bar
+                                %span.icon-bar
+                                %span.icon-bar
 
-                        %a.brand{:href => "/"} Raindrops
+                            %a.brand{:href => "/"} Raindrops
 
-                        .nav-collapse.collapse
-                            %ul.nav
-                                %li.active
-                                    %a{:href => "/"} Home
-                                %li
-                                    %a{:href => "/job"}
-                                        %i.icon-plus-sign
-                                        &nbsp;Job
-                                %li
-                                    %a{:href => "/cfg"}
-                                        %i.icon-plus-sign
-                                        &nbsp;Cfg
-                                %li
-                                    %a{:href => "/kickstart"}
-                                        %i.icon-plus-sign
-                                        &nbsp;Kickstart
-                                %li
-                                    %a{:href => "/status"}
-                                        %i.icon-tasks
-                                        &nbsp;Status
-                            %ul.nav.pull-right
-                                %li.dropdown
-                                    %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
-                                        = session[:user][:name]
-                                        %b.caret
-                                    %ul.dropdown-menu
-                                        %li
-                                            %a{:href => "/logout"} Log out
+                            .nav-collapse.collapse
+                                %ul.nav
+                                    %li.active
+                                        %a{:href => "/"} Home
+                                    %li
+                                        %a{:href => "/job"}
+                                            %i.icon-plus-sign
+                                            &nbsp;Job
+                                    %li
+                                        %a{:href => "/cfg"}
+                                            %i.icon-plus-sign
+                                            &nbsp;Cfg
+                                    %li
+                                        %a{:href => "/kickstart"}
+                                            %i.icon-plus-sign
+                                            &nbsp;Kickstart
+                                    %li
+                                        %a{:href => "/status"}
+                                            %i.icon-tasks
+                                            &nbsp;Status
+                                %ul.nav.pull-right
+                                    %li.dropdown
+                                        %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
+                                            = session[:user][:name]
+                                            %b.caret
+                                        %ul.dropdown-menu
+                                            %li
+                                                %a{:href => "/logout"} Log out
 
-        .container.main-container
-            =yield
+            .container.main-container
+                =yield
+
+            #push
+
+        %footer
+            &copy; Karanbir Singh & Jaime Melis, 2012-2013
+            %br
+            %a{:href=>"http://www.peer1.com/"}
+                Powered By PEER 1 Managed Hosting
+                %img{:src=>"http://www.peer1.com/images/hostingby_logos/p1_88x31_white_transpbg.PNG",
+                :alt=>"Managed Hosting by PEER 1", :width=>"88", :height=>"31"}
