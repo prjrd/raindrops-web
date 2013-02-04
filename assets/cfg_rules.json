@@ -1,6 +1,48 @@
 {
     "type": {
         "type": "required",
-        "values": ["kvm", "opennebula-kvm","opennebula-xen","xen"]
+        "values": ["kvm"]
+    },
+    "schedule" : {
+        "type": "required",
+        "values": ["0"]
+    },
+    "notify_u": {
+        "values_regexp": [
+            "^(http://.*|$)",
+            "It needs to be either empty or be a valid url (no https)."
+        ]
+    },
+    "image_tag": {
+        "values_regexp": [
+            "^[a-zA-Z0-9]{1,50}$",
+            "Valid chars: a-zA-Z0-9, and less than 50 chars long."
+        ]
+    },
+    "notify_e": {
+        "values_regexp": [
+            "^($|[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$)",
+            "Not a valid email. You can also leave it empty"
+        ]
+    },
+    "extra:vendor": {
+        "type": "required",
+        "values": ["CentOS"]
+    },
+    "extra:disk_type": {
+        "type": "required",
+        "values": ["raw","qcow2","vmdk","dmg"]
+    },
+    "extra:compression": {
+        "values": ["zip","bzip2","xz"]
+    },
+    "extra:deliver": {
+        "values": ["","pickup"]
+    },
+    "extra:xtra_opts": {
+        "values_regexp": [
+            "^.{0,150}$",
+            "Maximum 150 chars long."
+        ]
     }
 }

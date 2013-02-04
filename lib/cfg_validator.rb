@@ -62,18 +62,24 @@ class CfgValidator
             @rule = rule.extend(HashGet)
             @value = @cfg.get(@key)
 
-            required?
+            types?
             valid_values?
+            valid_values_regexp?
             requires?
             blocks?
         end
         return @errors.empty?
     end
 
-    def required?
-        if @rule["type"] == "required"
+    def types?
+        case @rule["type"]
+        when "required"
             if @value.nil?
                 error "required"
+            end
+        when "null"
+            if !@value.empty?
+                error "not supported at this time"
             end
         end
     end
@@ -84,6 +90,20 @@ class CfgValidator
             if !values.include? @value
                 values_str = values.join(", ")
                 error "Invalid value #{@value}. Possible values: [#{values_str}]"
+            end
+        end
+    end
+
+    def valid_values_regexp?
+        regexp, message = @rule["values_regexp"]
+        if regexp and @value
+            regexp = Regexp.new(regexp)
+            if !regexp.match(@value)
+                if message
+                    error message
+                else
+                    error "Invalid value #{@value}."
+                end
             end
         end
     end
