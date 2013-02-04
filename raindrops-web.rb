@@ -89,7 +89,7 @@ use Rack::Session::Cookie
 
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
-    provider :facebook, facebook_key, facebook_secret, :scope => 'email'
+    # provider :facebook, facebook_key, facebook_secret, :scope => 'email'
     provider :twitter, twitter_key, twitter_secret
 end
 
