@@ -48,6 +48,8 @@ class Job < Sequel::Model
             errors.add(:cfg, 'cannot be empty')
         end
 
+        return if kickstart_id.nil? or cfg_id.nil?
+
         # Validate Kickstart with specific config type
         cfg_rules = File.read(File.join(ROOT_DIR,"assets","cfg_rules.json"))
 
