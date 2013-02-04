@@ -154,6 +154,11 @@ get '/status' do
     haml :status, :locals => {:status => job_status}
 end
 
+get '/bug' do
+    haml :bug
+end
+
+
 # Support both GET and POST for callbacks
 %w(get post).each do |method|
     send(method, "/auth/:provider/callback") do
