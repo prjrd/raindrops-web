@@ -6,11 +6,11 @@
 "image_tag": "testing",
 "type": "xen",
 "notify_e": "kbsingh@karan.org",
-"Extra": {
+"extra": {
         "vendor": "CentOS",
         "disk_type": "qcow2",
         "disk_size": "10",
-        "compression": "bz2",
+        "compression": "bzip2",
         "deliver": "pickup",
         "xtra_opts": "noipv6",
         "networks": {
