@@ -85,7 +85,7 @@ Dir['lib/*.rb'].each{|m| require m}
 enable :sessions
 
 use Rack::Session::Pool, :key => SESSION_SECRET
-use Rack::Session::Cookie
+use Rack::Session::Cookie, :expire_after => 3600
 
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
