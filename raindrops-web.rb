@@ -4,7 +4,6 @@ $: << ROOT_DIR
 
 require 'rubygems'
 require 'sinatra'
-require 'sinatra/cookies'
 require 'omniauth'
 require 'omniauth-twitter'
 require 'omniauth-github'
@@ -82,14 +81,11 @@ Dir['models/*.rb'].each{|m| require m}
 # Load libs
 Dir['lib/*.rb'].each{|m| require m}
 
-enable :sessions
-
-use Rack::Session::Pool, :key => SESSION_SECRET
-use Rack::Session::Cookie, :expire_after => 3600
+use Rack::Session::Cookie,  :expire_after => 7*24*60*60,
+                            :secret => CONFIG[:session_secret]
 
 use OmniAuth::Builder do
     provider :github, github_key, github_secret
-    # provider :facebook, facebook_key, facebook_secret, :scope => 'email'
     provider :twitter, twitter_key, twitter_secret
 end
 
@@ -127,8 +123,10 @@ before do
        '/login'
     ]
 
+    user_id = request.cookies["user_id"]
+
     if auth_routes.collect{|r| path.match(r)}.compact.empty?
-        if session[:user].nil? or cookies[:user_id] != session[:user][:id].to_s
+        if session[:user].nil? or user_id != session[:user][:id].to_s
             redirect '/login'
         end
     end
@@ -190,8 +188,13 @@ end
 
         user.save
 
+        response.set_cookie("user_id", {
+                                        :value => user[:id],
+                                        :path => "/",
+                                        :expires => Time.now + 7*24*60*60}
+                            )
+
         session[:user] = user.to_hash
-        cookies[:user_id] = user[:id]
 
         redirect '/'
     end
