@@ -144,8 +144,9 @@ get '/login' do
 end
 
 get '/logout' do
-    session[:user] = nil
-    redirect '/'
+    session.clear
+    response.delete_cookie("user_id")
+    redirect '/login'
 end
 
 get '/status' do
