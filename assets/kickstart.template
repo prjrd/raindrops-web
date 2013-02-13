@@ -11,6 +11,7 @@ timezone --utc Europe/London
 bootloader --location=mbr --driveorder=sda
 repo --name="CentOS" --baseurl=http://repohost.raindrops.centos.org/centos/6/os/x86_64/ --cost=100
 repo --name="CentOS-Updates" --baseurl=http://repohost.raindrops.centos.org/centos/6/updates/x86_64/ --cost=100
+zerombr yes
 clearpart --all --initlabel
 part /boot --fstype ext3 --size=250
 part pv.2 --size=5000 --grow

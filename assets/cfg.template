@@ -4,8 +4,8 @@
 "update": "yes",
 "notify_u": "",
 "image_tag": "testing",
-"type": "xen",
-"notify_e": "kbsingh@karan.org",
+"type": "kvm",
+"notify_e": "",
 "extra": {
         "vendor": "CentOS",
         "disk_type": "qcow2",

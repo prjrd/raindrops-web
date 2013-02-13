@@ -88,7 +88,7 @@ class Job < Sequel::Model
         job_hash[:id] = self.sha256
         job_hash[:status] = "New"
 
-        BS.put(job_hash.to_json)
+        BS.put(job_hash.to_json,0,0,6*60*60)
     end
 end
 
