@@ -48,6 +48,13 @@ end
 class KickstartValidator
     VALID_METHODS = %w(has count single exists)
 
+    VALID_URLS = [
+        "http://repohost.raindrops.centos.org/",
+        "http://repohost.prjrd.net/",
+        "http://repohost.projectraindrops.net/",
+        "http://repohost/"
+    ]
+
     attr_reader :errors
 
     def initialize(kickstart, *rules_files)
@@ -115,6 +122,8 @@ class KickstartValidator
     def valid?
         return false if !@errors.empty?
 
+        check_valid_urls?
+
         @rules.each do |key, rules|
             rules.each do |method, params|
                 next if !VALID_METHODS.include?(method)
@@ -149,6 +158,18 @@ class KickstartValidator
         return @errors.empty?
     end
 
+    def check_valid_urls?
+        @kickstart.scan(/https?:\/\/[^\s'"]*/).each do |url|
+            allowed = VALID_URLS.collect do |valid_url|
+                url.start_with?(valid_url)
+            end.include?(true)
+
+            if !allowed
+                error_raw("#{url} is not an allowed url.")
+            end
+        end
+    end
+
     def error_raw(msg)
         @errors << msg
     end
@@ -171,8 +192,8 @@ if __FILE__ == $0
     require 'pp'
     require 'json'
 
-    kickstart = File.read("lib/kickstart_validator/example.ks")
-    rules     = File.read("assets/kickstart_rules.json")
+    kickstart = File.read("../assets/kickstart.template")
+    rules     = File.read("../assets/kickstart_rules.json")
 
     ks_validator = KickstartValidator.new(kickstart, rules)
     pp ks_validator.valid?
