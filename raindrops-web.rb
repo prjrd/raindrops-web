@@ -140,12 +140,13 @@ get '/' do
 end
 
 get '/login' do
+    session.clear
+    response.delete_cookie("user_id")
     haml :login, :layout => false
 end
 
 get '/logout' do
-    session[:user] = nil
-    redirect '/'
+    redirect '/login'
 end
 
 get '/status' do
