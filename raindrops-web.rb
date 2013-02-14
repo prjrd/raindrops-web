@@ -140,12 +140,12 @@ get '/' do
 end
 
 get '/login' do
+    session.clear
+    response.delete_cookie("user_id")
     haml :login, :layout => false
 end
 
 get '/logout' do
-    session.clear
-    response.delete_cookie("user_id")
     redirect '/login'
 end
 
