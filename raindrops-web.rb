@@ -205,8 +205,8 @@ end
                                         :expires => Time.now + 7*24*60*60}
                             )
 
-        user_hash      = user.to_hash
-        user[:image]   = image if image
+        user_hash         = user.to_hash
+        user_hash[:image] = image if image
 
         session[:user] = user_hash
 
