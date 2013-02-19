@@ -175,6 +175,8 @@ end
 
         name  = auth["info"]["name"] || auth["info"]["nickname"]
         email = auth["info"]["email"] || ""
+        image = auth["info"]["image"]
+
         if name.nil? or name.empty?
             error [
                 404,
@@ -203,7 +205,10 @@ end
                                         :expires => Time.now + 7*24*60*60}
                             )
 
-        session[:user] = user.to_hash
+        user_hash      = user.to_hash
+        user[:image]   = image if image
+
+        session[:user] = user_hash
 
         redirect '/'
     end

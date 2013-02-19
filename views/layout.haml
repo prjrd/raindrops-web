@@ -64,6 +64,9 @@
                                 %ul.nav.pull-right
                                     %li.dropdown
                                         %a.dropdown-toggle(data-toggle="dropdown" href="#contact")
+                                            - if (image = session[:user][:image])
+                                                %img.avatar{:src=>image}
+                                                &nbsp;
                                             = session[:user][:name]
                                             %b.caret
                                         %ul.dropdown-menu

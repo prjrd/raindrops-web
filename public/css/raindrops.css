@@ -101,3 +101,12 @@ footer a {
 footer a:hover {
     color: #f0f0f0
 }
+
+.avatar {
+  width: 23px;
+  height: 23px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
