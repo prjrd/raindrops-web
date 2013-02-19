@@ -163,16 +163,24 @@ end
     send(method, "/auth/:provider/callback") do
         auth = env['omniauth.auth']
 
+        provider = params["provider"]
+
         begin
-            provider_id = Provider[:name => params["provider"]][:id]
+            provider_id = Provider[:name => provider][:id]
         rescue
             error [404, "Provider not found."]
         end
 
         provider_uid = auth["uid"]
 
-        name  = auth["info"]["name"]
-        email = auth["info"]["email"]
+        name  = auth["info"]["name"] || auth["info"]["nickname"]
+        email = auth["info"]["email"] || ""
+        if name.nil? or name.empty?
+            error [
+                404,
+                "Fill in your username or nickname in #{provider}."
+            ]
+        end
 
         user = User[:provider_id => provider_id, :provider_uid => provider_uid]
 
