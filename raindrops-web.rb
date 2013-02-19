@@ -174,6 +174,8 @@ end
         provider_uid = auth["uid"]
 
         name  = auth["info"]["name"] || auth["info"]["nickname"]
+        name = auth["info"]["nickname"] if name.nil? or name.empty?
+
         email = auth["info"]["email"] || ""
         image = auth["info"]["image"]
 
@@ -205,10 +207,9 @@ end
                                         :expires => Time.now + 7*24*60*60}
                             )
 
-        user_hash         = user.to_hash
-        user_hash[:image] = image if image
 
-        session[:user] = user_hash
+        session[:user] = user.to_hash
+        session[:avatar] = image if image
 
         redirect '/'
     end
