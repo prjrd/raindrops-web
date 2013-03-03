@@ -64,6 +64,11 @@
                                     %a.btn(href='/auth/twitter')
                                         %i.icon-twitter
                                         &nbsp;Sign in with Twitter
+                    #twitter-widget.row
+                        .div
+                            %a.twitter-timeline{"data-widget-id" => "308163468341678080", :href => "https://twitter.com/prjrd"} Tweets by @prjrd
+                            :javascript
+                                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
             #push
 
