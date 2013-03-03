@@ -1,7 +1,7 @@
 {
     "type": {
         "type": "required",
-        "values": ["kvm"]
+        "values": ["kvm","mock"]
     },
     "schedule" : {
         "type": "required",
