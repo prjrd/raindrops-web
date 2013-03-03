@@ -120,3 +120,6 @@ footer a:hover {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+#new-config {
+  display: none;
+}

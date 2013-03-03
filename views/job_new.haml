@@ -11,34 +11,118 @@
                             %li
                                 =error_msg
 
-%form.new_resource{:action => "/job", :method => "post"}
-    %table
-        %tr
-            %td
-                Name
-            %td
-                %input{:type => "text", :name => "name", :value => job[:name]}
+%form.form-horizontal{:action => "/job", :method => "post"}
+    .control-group
+        %label.control-label{:for=>"inputName"} Name
+        .controls
+            %input#inputName{:type=>"text", :name=>"name", :placeholder=>job[:name]}
 
-        %tr
-            %td
-                Kickstart
-            %td
-                %select{:name => "kickstart_id"}
-                    %option
-                    - kickstarts.each do |kickstart|
-                        %option{:value => kickstart[:id], :selected => (kickstart[:id] == job[:kickstart_id])}
-                            = kickstart[:name]
+    .control-group
+        %label.control-label{:for=>"selectKickstart"} Kickstart
+        .controls
+            %select#selectKickstart{:name=>"kickstart_id"}
+                %option
+                - kickstarts.each do |kickstart|
+                    %option{:value => kickstart[:id], :selected => (kickstart[:id] == job[:kickstart_id])}
+                        = kickstart[:name]
+    .control-group
+        %label.control-label{:for=>"bgCfg"} Config
+        .controls
+            #bgCfg.btn-group{:"data-toggle"=>"buttons-radio"}
+                %button.btn.active{:type=>"button",:value=>"existing"}
+                    Select Config
+                %button.btn{:type=>"button",:value=>"new"}
+                    Create new Config
 
-        %tr
-            %td
-                Cfg
-            %td
-                %select{:name => "cfg_id"}
+    #select-config
+        .control-group
+            %label.control-label{:for=>"selectCfg"} Existing Config
+            .controls
+                %select#selectCfg{:name => "cfg_id"}
                     %option
                     - cfgs.each do |cfg|
                         %option{:value => cfg[:id], :selected => (cfg[:id] == job[:cfg_id])}
                             = cfg[:name]
 
-    %input{:type => "submit"}
+    #new-config
+        .control-group
+            %label.control-label{:for=>"inputScript"}
+                Script
+                %a.mtooltip{:href=>"#",:"data-toggle"=>"tooltip",:title=>"explanation"}
+                    &nbsp;
+                    %i.icon-lightbulb
+
+            .controls
+                %input#inputScript{:type=>"text", :name=>"script"}
+
+        .control-group
+            %label.control-label{:for=>"inputSchedule"} Schedule
+            .controls
+                %input#inputSchedule{:type=>"text", :name=>"schedule", :placeholder=>"0"}
+
+        .control-group
+            %label.control-label{:for=>"inputUpdate"} Update
+            .controls
+                %input#inputUpdate{:type=>"text", :name=>"update", :placeholder=>"yes"}
+
+        .control-group
+            %label.control-label{:for=>"inputNotifyU"} NotifyU
+            .controls
+                %input#inputNotifyU{:type=>"text", :name=>"notify_u"}
+
+        .control-group
+            %label.control-label{:for=>"inputImageTag"} ImageTag
+            .controls
+                %input#inputImageTag{:type=>"text", :name=>"image_tag", :placeholder=>"testing"}
+
+        .control-group
+            %label.control-label{:for=>"inputType"} Type
+            .controls
+                %select#inputType{:name=>"type"}
+                    %option{:value=>"kvm", :selected=>"yes"} KVM
+                    %option{:value=>"mock"} Mock
+
+        .control-group
+            %label.control-label{:for=>"inputNotifyE"} NotifyE
+            .controls
+                %input#inputNotifyE{:type=>"text", :name=>"notify_e"}
+
+
+        %h4#extra-config.offset1 Extra
+
+        .control-group
+            %label.control-label{:for=>"inputVendor"} Vendor
+            .controls
+                %select#inputVendor{:name=>"vendor"}
+                    %option{:value=>"CentOS", :selected=>"yes"} CentOS
+
+        .control-group
+            %label.control-label{:for=>"inputDiskType"} Disk Type
+            .controls
+                %select#inputDiskType{:name=>"disk_type"}
+                    %option{:value=>"qcow2", :selected=>"yes"} qcow2
+
+        .control-group
+            %label.control-label{:for=>"inputDiskSize"} Disk Size (GB)
+            .controls
+                %input#inputDiskSize{:type=>"text", :name=>"disk_size", :placeholder=>"10"}
+
+        .control-group
+            %label.control-label{:for=>"inputDelivery"} Delivery
+            .controls
+                %select#inputDelivery{:name=>"delivery"}
+                    %option{:value=>"pickup", :selected=>"yes"} pickup
+
+        .control-group
+            %label.control-label{:for=>"inputCompression"} Compression
+            .controls
+                %select#inputCompression{:name=>"compression"}
+                    %option{:value=>"bzip2", :selected=>"yes"} bzip2
+
+        .control-group
+            %label.control-label{:for=>"inputXtraOpts"} Extra Opts
+            .controls
+                %input#inputXtraOpts{:type=>"text", :name=>"extra", :placeholder=>"noipv6"}
+
 
 
