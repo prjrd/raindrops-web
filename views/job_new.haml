@@ -45,35 +45,12 @@
                             = cfg[:name]
 
     #new-config
-        .control-group
-            %label.control-label{:for=>"inputScript"}
-                Script
-                %a.mtooltip{:href=>"#",:"data-toggle"=>"tooltip",:title=>"explanation"}
-                    &nbsp;
-                    %i.icon-lightbulb
-
-            .controls
-                %input#inputScript{:type=>"text", :name=>"script"}
-
-        .control-group
-            %label.control-label{:for=>"inputSchedule"} Schedule
-            .controls
-                %input#inputSchedule{:type=>"text", :name=>"schedule", :placeholder=>"0"}
-
-        .control-group
-            %label.control-label{:for=>"inputUpdate"} Update
-            .controls
-                %input#inputUpdate{:type=>"text", :name=>"update", :placeholder=>"yes"}
 
         .control-group
             %label.control-label{:for=>"inputNotifyU"} NotifyU
             .controls
                 %input#inputNotifyU{:type=>"text", :name=>"notify_u"}
 
-        .control-group
-            %label.control-label{:for=>"inputImageTag"} ImageTag
-            .controls
-                %input#inputImageTag{:type=>"text", :name=>"image_tag", :placeholder=>"testing"}
 
         .control-group
             %label.control-label{:for=>"inputType"} Type
@@ -89,12 +66,6 @@
 
 
         %h4#extra-config.offset1 Extra
-
-        .control-group
-            %label.control-label{:for=>"inputVendor"} Vendor
-            .controls
-                %select#inputVendor{:name=>"vendor"}
-                    %option{:value=>"CentOS", :selected=>"yes"} CentOS
 
         .control-group
             %label.control-label{:for=>"inputDiskType"} Disk Type
