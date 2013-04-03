@@ -25,6 +25,14 @@
             "Not a valid email. You can also leave it empty"
         ]
     },
+    "distro": {
+        "type": "required",
+        "values": ["centos"]
+    },
+    "release": {
+        "type": "required",
+        "values": ["5","6"]
+    },
     "extra:vendor": {
         "type": "required",
         "values": ["CentOS"]
