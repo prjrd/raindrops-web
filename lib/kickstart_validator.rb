@@ -51,6 +51,7 @@ class KickstartValidator
     VALID_URLS = [
         "http://repohost.raindrops.centos.org/",
         "http://repohost.prjrd.net/",
+        "http://repo.prjrd.net/",
         "http://repohost.projectraindrops.net/",
         "http://repohost/"
     ]
