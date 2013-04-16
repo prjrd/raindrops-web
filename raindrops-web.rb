@@ -26,10 +26,10 @@ module Sinatra
     end
 end
 
-CONFIG_FILE = 'config.yaml'
+CONFIG_FILE = "#{File.dirname(__FILE__)}/config.yaml"
 
 begin
-    PAGE_RESOURCES = YAML.load_file('page_resources.yaml')
+    PAGE_RESOURCES = YAML.load_file("#{File.dirname(__FILE__)}/page_resources.yaml")
 rescue
 end
 

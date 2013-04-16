@@ -19,7 +19,35 @@ function update_tab_url(){
   });
 }
 
+function setup_new_cfg_listener(){
+  $(".btn-group button").click(function(){
+    var action = $(this).val();
+
+    switch(action)
+    {
+    case "new":
+      $("#select-config").fadeOut(function(){
+        $("#new-config").fadeIn();
+      });
+      break;
+
+    case "existing":
+      $("#new-config").fadeOut(function(){
+        $("#select-config").fadeIn();
+      });
+      break;
+    }
+  });
+}
+
+function start_tooltips(){
+  $(".mtooltip").tooltip({
+    "placement":"top"
+  });
+}
 $(function(){
     clean_get_forms();
     update_tab_url();
+    setup_new_cfg_listener();
+    start_tooltips();
 });

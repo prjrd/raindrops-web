@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'thin'
-gem 'system_timer'
+gem 'system_timer', :platforms => :ruby_18
 
 gem 'rack'
 gem 'rack-test'

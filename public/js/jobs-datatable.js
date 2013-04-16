@@ -41,7 +41,7 @@ function update_jobs_table(jobs_table){
             "    <input name='_method' type='hidden' value='delete' />" +
             "    <button class='btn btn-danger' type='submit'>Delete</button>" +
             "</form>" +
-            "&nbsp;<a class='btn' href='http://jobhost.raindrops.centos.org/" + sha256 + "/'>"+
+            "&nbsp;<a class='btn' href='http://results.prjrd.net/" + sha256 + "/'>"+
             "Results</a>";
 
             aaData.push([name,status,timestamp,actions]);

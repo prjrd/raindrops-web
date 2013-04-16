@@ -6,7 +6,7 @@ def email_admin(subject, message)
         return
     end
 
-    from = "Raindrops Service <raindrops@raindrops.mirror.centos.org>" 
+    from = "Raindrops Service <raindrops@projetraindrops.net>" 
     to   = ADMINS
     to_field = ADMINS.join(', ')
 
