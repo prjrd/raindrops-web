@@ -69,7 +69,7 @@ TEMPLATE_CFG       = File.read('assets/cfg.template')
 
 ks_templates = Hash.new
 ks_templates_keys = Array.new
-Dir['kickstart-templates/*.ks'].each do |f|
+Dir['kickstart-templates/*.ks'].sort.each do |f|
     name = File.basename(f).gsub(/\.ks$/,"").gsub(/^_/,"")
     tpl = File.read(f)
     ks_templates[name] = tpl
