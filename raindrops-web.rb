@@ -68,6 +68,15 @@ end
 TEMPLATE_KICKSTART = File.read('assets/kickstart.template')
 TEMPLATE_CFG       = File.read('assets/cfg.template')
 
+ks_templates = Hash.new
+Dir['assets/kickstart/*.template'].each do |f|
+    name = File.basename(f).gsub(/\.template$/,"")
+    tpl = File.read(f)
+    ks_templates[name] = tpl
+end
+
+KS_TEMPLATES = ks_templates
+
 # Get Sequel database
 DB = Sequel.connect(DATABASE_URL)
 
@@ -530,3 +539,11 @@ delete '/job/:id' do
     redirect '/#tab_job'
 end
 
+################################################################################
+# dynamic js
+################################################################################
+get '/js/ks_templates.js' do
+    content_type "application/x-javascript"
+
+    "var ks_templates = " << KS_TEMPLATES.to_json
+end

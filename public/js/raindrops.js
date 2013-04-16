@@ -20,7 +20,7 @@ function update_tab_url(){
 }
 
 function setup_new_cfg_listener(){
-  $(".btn-group button").click(function(){
+  $("#bgCfg.btn-group button").click(function(){
     var action = $(this).val();
 
     switch(action)
@@ -40,6 +40,27 @@ function setup_new_cfg_listener(){
   });
 }
 
+function setup_new_ks_listener(){
+  $("#kickstart-select.btn-group button").click(function(){
+    var action = $(this).val();
+
+    switch(action)
+    {
+    case "new":
+      $("#new-kickstart").fadeOut(function(){
+        $("#import-kickstart").fadeIn();
+      });
+      break;
+
+    case "existing":
+      $("#import-kickstart").fadeOut(function(){
+        $("#new-kickstart").fadeIn();
+      });
+      break;
+    }
+  });
+}
+
 function start_tooltips(){
   $(".mtooltip").tooltip({
     "placement":"top"
@@ -49,5 +70,6 @@ $(function(){
     clean_get_forms();
     update_tab_url();
     setup_new_cfg_listener();
+    setup_new_ks_listener();
     start_tooltips();
 });

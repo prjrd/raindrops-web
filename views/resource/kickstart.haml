@@ -12,25 +12,50 @@
                                 =error_msg
 
 
-%form.new_resource{:action => action_url, :method => 'POST'}
-    %table
-        %tr
-            %td
-                Name
-            %td
-                %input{:type => 'text', :name => "name", :value => resource[:name]}
-        %tr
-            %td
-                Body
-            %td
+%form.new_resource.form-horizontal{:action => action_url, :method => 'POST'}
+    .control-group
+        %label.control-label{:for=>"inputName"} Name
+        .controls
+            %input#inputName{:type=>"text", :name=>"name", :placeholder=>resource[:name]}
+
+    .control-group
+        %label.control-label{:for=>"kickstart-select"}
+        .controls
+            #kickstart-select.btn-group{:"data-toggle"=>"buttons-radio"}
+                %button.btn.active{:type=>"button",:value=>"existing"}
+                    Edit Kickstart
+                %button.btn{:type=>"button",:value=>"new"}
+                    Import Kickstart
+
+    #new-kickstart
+        .control-group
+            %label.control-label{:for=>"textareaBody"} Body
+            .controls
                 - if resource[:body].nil?
-                    %textarea{:name => "body"}= TEMPLATE_KICKSTART
+                    %textarea#textareaBody{:name => "body"}= TEMPLATE_KICKSTART
                 - else
-                    %textarea{:name => "body"}= resource[:body]
+                    %textarea#textareaBody{:name => "body"}= resource[:body]
+
+    #import-kickstart{:style=>"display: none;"}
+        .control-group
+            %label.control-label{:for=>"inputImportKS"} Type
+            .controls
+                %select#inputImportKS{:name=>"ks_template"}
+                    %option{:value=>"kvm", :selected=>"yes"} KVM
+                    %option{:value=>"mock"} Mock
+
+        .control-group
+            %label.control-label{:for=>"textareaBodyImport"} Body
+            .controls
+                %textarea#textareaBodyImport{:name => "bodyImport"}
+
+    .control-group
+        %label.control-label{:for=>"submitButton"}
+        .controls
+            %input{:type =>"submit"}
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}
-    %input{:type =>"submit"}
 
 - if revs.count > 1
     %h2 Old revisions
