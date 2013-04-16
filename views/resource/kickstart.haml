@@ -23,7 +23,7 @@
         .controls
             %select#importKS{:name=>"selected_ks"}
                 %option{:value=>"---", :selected=>"yes"} ---
-                - KS_TEMPLATES.each do |k,v|
+                - KS_TEMPLATES_KEYS.each do |k|
                     %option{:value=>"#{k}" }
                         = k
 

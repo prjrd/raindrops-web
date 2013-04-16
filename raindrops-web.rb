@@ -68,13 +68,16 @@ end
 TEMPLATE_CFG       = File.read('assets/cfg.template')
 
 ks_templates = Hash.new
-Dir['assets/kickstart/*.template'].each do |f|
-    name = File.basename(f).gsub(/\.template$/,"")
+ks_templates_keys = Array.new
+Dir['kickstart-templates/*.ks'].each do |f|
+    name = File.basename(f).gsub(/\.ks$/,"").gsub(/^_/,"")
     tpl = File.read(f)
     ks_templates[name] = tpl
+    ks_templates_keys << name
 end
 
 KS_TEMPLATES = ks_templates
+KS_TEMPLATES_KEYS = ks_templates_keys
 
 # Get Sequel database
 DB = Sequel.connect(DATABASE_URL)
