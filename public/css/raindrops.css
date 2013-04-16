@@ -120,6 +120,17 @@ footer a:hover {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
+/* New Job */
+table#new-job input {
+  width:238px;
+}
+
+table#new-job select {
+  width:252px;
+}
+
 #new-config {
   display: none;
 }
+
