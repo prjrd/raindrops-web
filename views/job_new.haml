@@ -45,9 +45,8 @@
                             = cfg[:name]
 
     #new-config
-
         .control-group
-            %label.control-label{:for=>"inputNotifyU"} NotifyU
+            %label.control-label{:for=>"inputNotifyU"} Notify URL
             .controls
                 %input#inputNotifyU{:type=>"text", :name=>"notify_u"}
 
@@ -60,10 +59,14 @@
                     %option{:value=>"mock"} Mock
 
         .control-group
-            %label.control-label{:for=>"inputNotifyE"} NotifyE
+            %label.control-label{:for=>"inputNotifyE"} Notify Email
             .controls
                 %input#inputNotifyE{:type=>"text", :name=>"notify_e"}
 
+        .control-group
+            %label.control-label{:for=>"inputNotifyT"} Notify Twitter
+            .controls
+                %input#inputNotifyT{:type=>"text", :name=>"notify_t"}
 
         %h4#extra-config.offset1 Extra
 
