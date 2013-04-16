@@ -1,5 +1,7 @@
 {
 "script": "",
+"distro": "centos",
+"release": "6",
 "schedule": "0",
 "update": "yes",
 "notify_u": "",
