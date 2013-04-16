@@ -19,35 +19,21 @@
             %input#inputName{:type=>"text", :name=>"name", :placeholder=>resource[:name]}
 
     .control-group
-        %label.control-label{:for=>"kickstart-select"}
+        %label.control-label{:for=>"importKS"} Import Kickstart
         .controls
-            #kickstart-select.btn-group{:"data-toggle"=>"buttons-radio"}
-                %button.btn.active{:type=>"button",:value=>"existing"}
-                    Edit Kickstart
-                %button.btn{:type=>"button",:value=>"new"}
-                    Import Kickstart
+            %select#importKS{:name=>"selected_ks"}
+                %option{:value=>"---", :selected=>"yes"} ---
+                - KS_TEMPLATES.each do |k,v|
+                    %option{:value=>"#{k}" }
+                        = k
 
-    #new-kickstart
-        .control-group
-            %label.control-label{:for=>"textareaBody"} Body
-            .controls
-                - if resource[:body].nil?
-                    %textarea#textareaBody{:name => "body"}= TEMPLATE_KICKSTART
-                - else
-                    %textarea#textareaBody{:name => "body"}= resource[:body]
-
-    #import-kickstart{:style=>"display: none;"}
-        .control-group
-            %label.control-label{:for=>"inputImportKS"} Type
-            .controls
-                %select#inputImportKS{:name=>"ks_template"}
-                    %option{:value=>"kvm", :selected=>"yes"} KVM
-                    %option{:value=>"mock"} Mock
-
-        .control-group
-            %label.control-label{:for=>"textareaBodyImport"} Body
-            .controls
-                %textarea#textareaBodyImport{:name => "bodyImport"}
+    .control-group
+        %label.control-label{:for=>"textareaBody"} Body
+        .controls
+            - if resource[:body].nil?
+                %textarea#textareaBody{:name => "body"}
+            - else
+                %textarea#textareaBody{:name => "body"}= resource[:body]
 
     .control-group
         %label.control-label{:for=>"submitButton"}

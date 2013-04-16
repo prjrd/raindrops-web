@@ -40,24 +40,20 @@ function setup_new_cfg_listener(){
   });
 }
 
-function setup_new_ks_listener(){
-  $("#kickstart-select.btn-group button").click(function(){
-    var action = $(this).val();
-
-    switch(action)
-    {
-    case "new":
-      $("#new-kickstart").fadeOut(function(){
-        $("#import-kickstart").fadeIn();
-      });
-      break;
-
-    case "existing":
-      $("#import-kickstart").fadeOut(function(){
-        $("#new-kickstart").fadeIn();
-      });
-      break;
+var ks_import_edit= "";
+var ks_import_last_option = "---";
+function setup_import_ks_listener(){
+  $("#importKS").change(function(){
+    name = $(this).val();
+    if (name == "---") {
+      $("#textareaBody").val(ks_import_edit);
+    } else {
+      if (ks_import_last_option == "---") {
+        ks_import_edit = $("#textareaBody").val();
+      }
+      $("#textareaBody").val(ks_templates[name]);
     }
+    ks_import_last_option = name;
   });
 }
 
@@ -66,10 +62,12 @@ function start_tooltips(){
     "placement":"top"
   });
 }
+
+
 $(function(){
     clean_get_forms();
     update_tab_url();
     setup_new_cfg_listener();
-    setup_new_ks_listener();
+    setup_import_ks_listener();
     start_tooltips();
 });

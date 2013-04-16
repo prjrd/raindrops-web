@@ -65,7 +65,6 @@ rescue
 end
 
 # Load templates
-TEMPLATE_KICKSTART = File.read('assets/kickstart.template')
 TEMPLATE_CFG       = File.read('assets/cfg.template')
 
 ks_templates = Hash.new
