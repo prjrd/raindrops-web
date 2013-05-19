@@ -12,28 +12,36 @@
                                 =error_msg
 
 
-%form.new_resource{:action => action_url, :method => 'POST'}
-    %table
-        %tr
-            %td
-                Name
-            %td
-                %input{:type => 'text', :name => "name", :value => resource[:name]}
-        %tr
-            %td
-                Body
-            %td
-                - if resource[:body].nil?
-                    %textarea{:name => "body"}= TEMPLATE_CFG
-                - else
-                    %textarea{:name => "body"}= resource[:body]
+%form.new_resource.form-horizontal{:action => action_url, :method => 'POST'}
+    .control-group
+        %label.control-label{:for=>"inputName"} Name
+        .controls
+            %input#inputName{:type=>"text", :name=>"name", :placeholder=>resource[:name]}
 
+    .control-group
+        %label.control-label{:for=>"importCFG"} Import Cfg
+        .controls
+            %select#importCFG{:name=>"selected_cfg"}
+                %option{:value=>"---", :selected=>"yes"} ---
+                - CFG_TEMPLATES_KEYS.each do |k|
+                    %option{:value=>"#{k}" }
+                        = k
+
+    .control-group
+        %label.control-label{:for=>"textareaBody"} Body
+        .controls
+            - if resource[:body].nil?
+                %textarea#textareaBody{:name => "body"}
+            - else
+                %textarea#textareaBody{:name => "body"}= resource[:body]
+
+    .control-group
+        %label.control-label{:for=>"submitButton"}
+        .controls
+            %input{:type =>"submit"}
 
     %input{:type => "hidden", :name => "id", :value => resource[:id]}
     %input{:type => "hidden", :name => "_method", :value => action_method}
-    %input{:type =>"submit"}
-
-#valid
 
 - if revs.count > 1
     %h2 Old revisions

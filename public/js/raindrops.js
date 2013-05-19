@@ -57,6 +57,23 @@ function setup_import_ks_listener(){
   });
 }
 
+var cfg_import_edit= "";
+var cfg_import_last_option = "---";
+function setup_import_cfg_listener(){
+  $("#importCFG").change(function(){
+    name = $(this).val();
+    if (name == "---") {
+      $("#textareaBody").val(cfg_import_edit);
+    } else {
+      if (cfg_import_last_option == "---") {
+        cfg_import_edit = $("#textareaBody").val();
+      }
+      $("#textareaBody").val(cfg_templates[name]);
+    }
+    cfg_import_last_option = name;
+  });
+}
+
 function start_tooltips(){
   $(".mtooltip").tooltip({
     "placement":"top"
@@ -69,5 +86,6 @@ $(function(){
     update_tab_url();
     setup_new_cfg_listener();
     setup_import_ks_listener();
+    setup_import_cfg_listener();
     start_tooltips();
 });

@@ -65,8 +65,6 @@ rescue
 end
 
 # Load templates
-TEMPLATE_CFG       = File.read('assets/cfg.template')
-
 ks_templates = Hash.new
 ks_templates_keys = Array.new
 Dir['kickstart-templates/*.ks'].sort.each do |f|
@@ -78,6 +76,18 @@ end
 
 KS_TEMPLATES = ks_templates
 KS_TEMPLATES_KEYS = ks_templates_keys
+
+cfg_templates = Hash.new
+cfg_templates_keys = Array.new
+Dir['cfg-templates/*.cfg'].sort.each do |f|
+    name = File.basename(f).gsub(/\.cfg$/,"").gsub(/^_/,"")
+    tpl = File.read(f)
+    cfg_templates[name] = tpl
+    cfg_templates_keys << name
+end
+
+CFG_TEMPLATES = cfg_templates
+CFG_TEMPLATES_KEYS = cfg_templates_keys
 
 # Get Sequel database
 DB = Sequel.connect(DATABASE_URL)
@@ -548,4 +558,10 @@ get '/js/ks_templates.js' do
     content_type "application/x-javascript"
 
     "var ks_templates = " << KS_TEMPLATES.to_json
+end
+
+get '/js/cfg_templates.js' do
+    content_type "application/x-javascript"
+
+    "var cfg_templates = " << CFG_TEMPLATES.to_json
 end
