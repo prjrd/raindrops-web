@@ -313,14 +313,13 @@ put '/kickstart/:id' do
             :id => params["id"]
         )
 
-
     if !r.load
         error [404, "Resource not found."]
     end
 
     resource = r.resource
 
-    resource[:name]    = params[:name]
+    resource[:name]    = params[:name] if !params[:name].empty?
     resource[:body]    = params[:body]
     resource[:user_id] = user_id
 
@@ -430,7 +429,7 @@ put '/cfg/:id' do
 
     resource = r.resource
 
-    resource[:name]    = params[:name]
+    resource[:name]    = params[:name] if !params[:name].empty?
     resource[:body]    = params[:body]
     resource[:user_id] = user_id
 
