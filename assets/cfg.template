@@ -2,6 +2,7 @@
 "script": "",
 "distro": "centos",
 "release": "6",
+"arch" : "x86_64",
 "schedule": "0",
 "update": "yes",
 "notify_u": "",
