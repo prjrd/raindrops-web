@@ -39,7 +39,7 @@
     },
     "extra:disk_type": {
         "type": "required",
-        "values": ["raw","qcow2","vmdk","dmg"]
+        "values": ["raw","qcow2","vmdk","dmg","vpc"]
     },
     "extra:compression": {
         "values": ["zip","bzip2","xz"]
